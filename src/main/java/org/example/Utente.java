@@ -9,7 +9,7 @@ public class Utente {
         login=loginIniz;
         password=passwordIniz;
     }
-    boolean successoAccesso=false;
+    private boolean successoAccesso=false;
 
 
     void accesso(String loginM, String passwordM) {

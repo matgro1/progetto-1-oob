@@ -1,12 +1,21 @@
 package org.example;
+import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.time.LocalDate;
 public class ToDo {
-    String titolo=new String();
-    LocalDate dataScadenza;
-    String url= new String();
-    //immaggine
-    //colore
-    Stato stato = Stato.INCORSO;
+    protected String titolo=new String();
+    protected LocalDate dataScadenza;
 
+    protected String url= new String();
+    protected ImageIcon immaggine=new ImageIcon("img/img.png");
+
+    protected ColorUIResource colore=new ColorUIResource((int)(Math.random() * 256),(int)(Math.random() * 256),(int)(Math.random() * 256));
+    protected Stato stato = Stato.INCORSO;
+
+
+    public ToDo(String t, LocalDate dS){
+        titolo=t;
+        dataScadenza=dS;
+    }
 
 }
