@@ -25,17 +25,33 @@ public class Utente {
         successoAccesso=false;
     }
 
-
     void creaBacheca(String nome, String desc){//
         if (successoAccesso == true){
             bacheche.add(new Bacheca(nome,desc));
         }
     }
+    void eliminaBacheca(String nome){//
+        if (successoAccesso == true) {
+            if (bacheche.isEmpty()) ;
+            else {
+                for (Bacheca b : bacheche) {
+                    if (b.getNome().equals(nome)) {
+                        bacheche.remove(b);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     void creaToDo(String nomeB, String nome, LocalDate dataScadenza){
         if(bacheche.isEmpty());
         else{
             for(Bacheca b:bacheche){
-                if (b.titolo.compareTo(nomeB)==0) b.todo.add(new ToDo(nome,dataScadenza));
+                if (b.getNome().equals(nomeB)) {
+                    b.todo.add(new ToDo(nome, dataScadenza));
+                    break;
+                }
             }
         }
     }
