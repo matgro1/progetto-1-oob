@@ -26,7 +26,7 @@ public class Utente {
     }
 
 
-    void creaBacheca(String nome, String desc){
+    void creaBacheca(String nome, String desc){//
         if (successoAccesso == true){
             bacheche.add(new Bacheca(nome,desc));
         }
