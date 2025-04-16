@@ -73,3 +73,7 @@ Gli utenti possono organizzare le attività in tre bacheche principali: **Univer
 - **Enumerazione StatoChecklist**
   - `completato`  
   - `nonCompletato`
+---
+ho deciso di mettere ToDo come una classe di associazione tra utente e bacheca perchè un utente crea una bacheca e tra la relazione tra utente si può creare un utente.
+per quanto riguarda il nome delle bacheche non sono d'accordo con il class model dato come possibile soluzione nella traccia che il titolo della bachca sià un enumaration perché noi possiamo creare e distruggere bacheche con nomi diversi e quei tre dati sono istanze di bacheche di default ma non attributi. 
+ho deciso di gestire i ToDo condivisi come generalizzazione di ToDo e sempre per i ToDo ho deciso di aggiungere come stato scaduto perché se si supera la data di scadenza va in quello stato ovviamente da questo stato può essere comunque completato
