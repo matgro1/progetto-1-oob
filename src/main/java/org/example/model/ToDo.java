@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,6 @@ public class Bacheca {
     ArrayList<ToDo> todo= new ArrayList<ToDo>();
     public Bacheca(String t,String desc){
         titolo=t;
-        descrizione=desc;//gng ts pmo icl🪫🥀
+        descrizione=desc;
     }
 }
