@@ -12,7 +12,7 @@ public class Utente {
 
     public Utente(String loginIniz, String passwordIniz) {
         login = loginIniz;
-        password = passwordIniz;
+        password = passwordIniz;//
     }
 
     public void accesso(String loginM, String passwordM) {
