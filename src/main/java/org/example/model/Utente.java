@@ -12,7 +12,7 @@ public class Utente {
 
     public Utente(String loginIniz, String passwordIniz) {
         login = loginIniz;
-        password = passwordIniz;//
+        password = passwordIniz;
     }
 
     public void accesso(String loginM, String passwordM) {
@@ -66,7 +66,6 @@ public class Utente {
         }
     }
 
-    // Metodo per aggiungere checklist a un ToDo
     public void aggiungiChecklistItem(String nomeB, String nomeToDo, ChecklistItem item) {
         for (Bacheca b : bacheche) {
             if (b.getNome().equals(nomeB)) {
@@ -91,5 +90,9 @@ public class Utente {
 
     public ArrayList<Bacheca> getBacheche() {
         return bacheche;
+    }
+
+    public boolean isAccesso() {
+        return successoAccesso;
     }
 }
