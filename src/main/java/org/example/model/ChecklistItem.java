@@ -1,6 +1,7 @@
 package org.example.model;
 
 public class ChecklistItem {
+    private String titolo;
     private String descrizione;
     private StatoChecklist stato;
 
@@ -11,6 +12,9 @@ public class ChecklistItem {
 
     public String getDescrizione() {
         return descrizione;
+    }
+    public String getTitolo() {
+        return titolo;
     }
 
     public StatoChecklist getStato() {
@@ -24,6 +28,7 @@ public class ChecklistItem {
     public void completa() {
         this.stato = StatoChecklist.COMPLETATO;
     }
+
 
     public boolean isCompletato() {
         return this.stato == StatoChecklist.COMPLETATO;
