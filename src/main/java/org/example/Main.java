@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Main {
     private static List<Utente> utenti = new ArrayList<>();
-    private static Utente utenteCorrente = null;
+    private static Utente utenteCorrente = null; // Inizializza a null
     private static JFrame frame;
 
     public static void main(String[] args) {
@@ -161,7 +161,6 @@ public class Main {
 
         JList<Bacheca> bachecheList = new JList<>(listModel);
         bachecheList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
         bachecheList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 Bacheca selectedBacheca = bachecheList.getSelectedValue();
@@ -171,10 +170,12 @@ public class Main {
             }
         });
 
+
         JScrollPane bachecheScrollPane = new JScrollPane(bachecheList);
         bachecheScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
         bachecheScrollPane.setPreferredSize(new Dimension(300, 200));
         bachecheScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
+
 
         centerPanel.add(creaBachecaButton);
         centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -210,16 +211,67 @@ public class Main {
         Dimension fieldMaxSize = new Dimension(Integer.MAX_VALUE, nomeBField.getPreferredSize().height);
         nomeBField.setMaximumSize(fieldMaxSize);
         descScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 150));
+        creaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        annullaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        creaBachecaPanel.add(new JLabel("Titolo Bacheca:"));
+        creaBachecaPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        creaBachecaPanel.add(nomeBField);
+        creaBachecaPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        creaBachecaPanel.add(new JLabel("Descrizione Bacheca (opzionale):"));
+        creaBachecaPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        creaBachecaPanel.add(descScrollPane); // Aggiungi lo JScrollPane
+        creaBachecaPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        creaBachecaPanel.add(creaButton);
+        creaBachecaPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        creaBachecaPanel.add(annullaButton);
+
+        updateFrameContent(creaBachecaPanel);
+
+        annullaButton.addActionListener(e -> {
+            showDashboard();
+        });
+
+        creaButton.addActionListener(e -> {
+            String titolo = nomeBField.getText().trim();
+            String descrizione = descrizioneBField.getText().trim();
+
+            if (titolo.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Il titolo della bacheca non può essere vuoto.", "Errore Creazione", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            boolean nomeEsistente = utenteCorrente.getBacheche().stream()
+                    .anyMatch(b -> b.getNome().equalsIgnoreCase(titolo));
+            if(nomeEsistente) {
+                JOptionPane.showMessageDialog(frame, "Esiste già una bacheca con il titolo '" + titolo + "'.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+
+            utenteCorrente.creaBacheca(titolo, descrizione);
+
+            JOptionPane.showMessageDialog(frame, "Bacheca '" + titolo + "' creata con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
+
+            showDashboard();
+        });
     }
 
     private static void updateFrameContent(JPanel panel) {
         frame.getContentPane().removeAll();
-        frame.getContentPane().add(panel);
+        frame.add(panel);
         frame.revalidate();
         frame.repaint();
     }
 
-    private static void bachecaUi() {
-        // Placeholder per implementazione futura
+
+
+    private static void bachecaUi(){
+        JPanel bachecaUiPanel= new JPanel();
+        updateFrameContent(bachecaUiPanel);
+
     }
+
+
+
 }
