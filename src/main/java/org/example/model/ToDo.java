@@ -72,4 +72,9 @@ public class ToDo {
     public ArrayList<ChecklistItem> getChecklist() {
         return checklist;
     }
+    @Override
+    public String toString() {
+        return getTitolo();
+    }
+
 }

@@ -4,6 +4,9 @@ import org.example.model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -165,7 +168,7 @@ public class Main {
             if (!e.getValueIsAdjusting()) {
                 Bacheca selectedBacheca = bachecheList.getSelectedValue();
                 if (selectedBacheca != null) {
-                    bachecaUi();
+                    bachecaUi(selectedBacheca);
                 }
             }
         });
@@ -266,12 +269,126 @@ public class Main {
 
 
 
-    private static void bachecaUi(){
+    private static void bachecaUi(Bacheca selectedBacheca){
         JPanel bachecaUiPanel= new JPanel();
+        bachecaUiPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(e -> showDashboard());
+        topPanel.add(Box.createHorizontalStrut(20));
+        topPanel.add(logoutButton);
+
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+
+        JButton creaBachecaButton = new JButton("Crea Nuovo ToDo");
+        creaBachecaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        creaBachecaButton.addActionListener(e -> showCreaToDo(selectedBacheca));
+
+        JLabel bachecheLabel = new JLabel("I tuoi ToDo:");
+        bachecheLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        DefaultListModel<ToDo> listModel = new DefaultListModel<>();
+        selectedBacheca.getToDo().forEach(listModel::addElement);
+
+
+
+        JList<ToDo> ToDoList = new JList<>(listModel);
+        ToDoList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        ToDoList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+            }
+        });
+
+
+        JScrollPane ToDoScrollPane = new JScrollPane(ToDoList);
+        ToDoScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        ToDoScrollPane.setPreferredSize(new Dimension(300, 200));
+        ToDoScrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 300));
+
+
+        centerPanel.add(creaBachecaButton);
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        centerPanel.add(bachecheLabel);
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        centerPanel.add(ToDoScrollPane);
+
+        bachecaUiPanel.add(topPanel, BorderLayout.NORTH);
+        bachecaUiPanel.add(centerPanel, BorderLayout.CENTER);
+
         updateFrameContent(bachecaUiPanel);
 
     }
 
+    private static void showCreaToDo(Bacheca selectedBacheca) {
+        JPanel creaToDoPanel = new JPanel();
+        creaToDoPanel.setLayout(new BoxLayout(creaToDoPanel, BoxLayout.Y_AXIS));
+        creaToDoPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+
+        JTextField nomeTField = new JTextField(20);
+        JTextField dataTField = new JTextField(20);
+
+        JButton creaButton = new JButton("Crea ToDo");
+        JButton annullaButton = new JButton("Annulla");
+
+        Dimension fieldMaxSize = new Dimension(Integer.MAX_VALUE, nomeTField.getPreferredSize().height);
+        nomeTField.setMaximumSize(fieldMaxSize);
+        dataTField.setMaximumSize(fieldMaxSize);
+        creaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        annullaButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        creaToDoPanel.add(new JLabel("Titolo ToDo:"));
+        creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        creaToDoPanel.add(nomeTField);
+        creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        creaToDoPanel.add(new JLabel("Data Scadenza (dd/MM/yyyy):"));
+        creaToDoPanel.add(dataTField);
+        creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+        creaToDoPanel.add(creaButton);
+        creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        creaToDoPanel.add(annullaButton);
+
+        updateFrameContent(creaToDoPanel);
+
+        annullaButton.addActionListener(e -> {
+            return;
+        });
+
+        creaButton.addActionListener(e -> {
+            String titolo = nomeTField.getText().trim();
+
+            String dataTesto= dataTField.getText();
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate data = LocalDate.parse(dataTesto,formatter);
+                if (titolo.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Il titolo del ToDo non può essere vuoto.", "Errore Creazione", JOptionPane.WARNING_MESSAGE);
+                }
+
+                boolean nomeEsistente = selectedBacheca.getToDo().stream()
+                        .anyMatch(b -> b.getTitolo().equalsIgnoreCase(titolo));
+                if(nomeEsistente) {
+                    JOptionPane.showMessageDialog(frame, "Esiste già un ToDo con il titolo '" + titolo + "'.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
+
+                    bachecaUi(selectedBacheca);
+                }
+
+
+                selectedBacheca.aggiungiToDo(new ToDo(titolo,data));
+
+                JOptionPane.showMessageDialog(frame, "ToDo '" + titolo + "' creata con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
+
+                bachecaUi(selectedBacheca);
+            } catch (DateTimeParseException exception) {
+                System.out.println("Formato data non valido!");
+                return;
+            }
+
+
+        });
+    }
 
 
 }

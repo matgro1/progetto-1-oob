@@ -44,16 +44,6 @@ public class Utente {
         }
     }
 
-    public void creaToDo(String nomeB, String nome, LocalDate dataScadenza) {
-        if (!bacheche.isEmpty()) {
-            for (Bacheca b : bacheche) {
-                if (b.getNome().equals(nomeB)) {
-                    b.aggiungiToDo(new ToDo(nome, dataScadenza));
-                    break;
-                }
-            }
-        }
-    }
 
     public void cancellaToDo(String nomeB, String nome, LocalDate dataScadenza) {
         if (!bacheche.isEmpty()) {
