@@ -343,8 +343,8 @@ public class Main {
         creaToDoPanel.add(nomeTField);
         creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         creaToDoPanel.add(new JLabel("Data Scadenza (dd/MM/yyyy):"));
-        creaToDoPanel.add(dataTField);
         creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        creaToDoPanel.add(dataTField);
         creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         creaToDoPanel.add(creaButton);
         creaToDoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -352,43 +352,41 @@ public class Main {
 
         updateFrameContent(creaToDoPanel);
 
-        annullaButton.addActionListener(e -> {
-            nomeTField.setText("");
-            dataTField.setText("");
-        });
+        annullaButton.addActionListener(e -> bachecaUi(selectedBacheca));
 
         creaButton.addActionListener(e -> {
             String titolo = nomeTField.getText().trim();
-            String dataTesto = dataTField.getText();
+            String dataTesto = dataTField.getText().trim();
+
+            if (titolo.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Il titolo del ToDo non può essere vuoto.", "Errore Creazione", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate data;
 
             try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate data = LocalDate.parse(dataTesto, formatter);
-
-                if (titolo.isEmpty()) {
-                    JOptionPane.showMessageDialog(frame, "Il titolo del ToDo non può essere vuoto.", "Errore Creazione", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                boolean nomeEsistente = selectedBacheca.getToDo().stream()
-                        .anyMatch(b -> b.getTitolo().equalsIgnoreCase(titolo));
-                if (nomeEsistente) {
-                    JOptionPane.showMessageDialog(frame, "Esiste già un ToDo con il titolo '" + titolo + "'.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                selectedBacheca.aggiungiToDo(new ToDo(titolo, data));
-                JOptionPane.showMessageDialog(frame, "ToDo '" + titolo + "' creata con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
-
-                nomeTField.setText("");
-                dataTField.setText("");
-
-                bachecaUi(selectedBacheca);
-            } catch (DateTimeParseException exception) {
-                JOptionPane.showMessageDialog(frame, "Formato data non valido! Assicurati di usare il formato dd/MM/yyyy.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
+                data = LocalDate.parse(dataTesto, formatter);
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(frame, "Formato data non valido! Usa il formato dd/MM/yyyy.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+
+            boolean nomeEsistente = selectedBacheca.getToDo().stream()
+                    .anyMatch(todo -> todo.getTitolo().equalsIgnoreCase(titolo));
+            if (nomeEsistente) {
+                JOptionPane.showMessageDialog(frame, "Esiste già un ToDo con il titolo '" + titolo + "'.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            selectedBacheca.aggiungiToDo(new ToDo(titolo, data));
+            JOptionPane.showMessageDialog(frame, "ToDo '" + titolo + "' creata con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
+
+            bachecaUi(selectedBacheca);
         });
     }
+
 
 
 }
