@@ -353,40 +353,40 @@ public class Main {
         updateFrameContent(creaToDoPanel);
 
         annullaButton.addActionListener(e -> {
-            return;
+            nomeTField.setText("");
+            dataTField.setText("");
         });
 
         creaButton.addActionListener(e -> {
             String titolo = nomeTField.getText().trim();
+            String dataTesto = dataTField.getText();
 
-            String dataTesto= dataTField.getText();
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate data = LocalDate.parse(dataTesto,formatter);
+                LocalDate data = LocalDate.parse(dataTesto, formatter);
+
                 if (titolo.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Il titolo del ToDo non può essere vuoto.", "Errore Creazione", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
 
                 boolean nomeEsistente = selectedBacheca.getToDo().stream()
                         .anyMatch(b -> b.getTitolo().equalsIgnoreCase(titolo));
-                if(nomeEsistente) {
+                if (nomeEsistente) {
                     JOptionPane.showMessageDialog(frame, "Esiste già un ToDo con il titolo '" + titolo + "'.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
-
-                    bachecaUi(selectedBacheca);
+                    return;
                 }
 
-
-                selectedBacheca.aggiungiToDo(new ToDo(titolo,data));
-
+                selectedBacheca.aggiungiToDo(new ToDo(titolo, data));
                 JOptionPane.showMessageDialog(frame, "ToDo '" + titolo + "' creata con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
+
+                nomeTField.setText("");
+                dataTField.setText("");
 
                 bachecaUi(selectedBacheca);
             } catch (DateTimeParseException exception) {
-                System.out.println("Formato data non valido!");
-                return;
+                JOptionPane.showMessageDialog(frame, "Formato data non valido! Assicurati di usare il formato dd/MM/yyyy.", "Errore Creazione", JOptionPane.ERROR_MESSAGE);
             }
-
-
         });
     }
 
