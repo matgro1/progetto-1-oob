@@ -17,7 +17,6 @@ public class Bacheca {
         descrizione = desc;
     }
 
-    // Getter e Setter per il titolo e descrizione
     public String getNome() {
         return titolo;
     }

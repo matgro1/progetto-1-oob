@@ -11,11 +11,10 @@ public class ToDoCondiviso extends ToDo {
     public ToDoCondiviso(String t, LocalDate dS, Utente uC, LocalDate dC) {
         super(t, dS);
         creatore = uC;
-        ultimoModificatore = uC; // Il creatore è anche l'ultimo modificatore al momento della creazione
+        ultimoModificatore = uC;
         dataCondivisione = dC;
     }
 
-    // Getters and Setters
     public Utente getCreatore() {
         return creatore;
     }
