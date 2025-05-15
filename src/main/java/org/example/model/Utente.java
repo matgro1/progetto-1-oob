@@ -45,16 +45,7 @@ public class Utente {
     }
 
 
-    public void cancellaToDo(String nomeB, String nome, LocalDate dataScadenza) {
-        if (!bacheche.isEmpty()) {
-            for (Bacheca b : bacheche) {
-                if (b.getNome().equals(nomeB)) {
-                    b.removeToDo(nome, dataScadenza);
-                    break;
-                }
-            }
-        }
-    }
+    
 
     public void aggiungiChecklistItem(String nomeB, String nomeToDo, ChecklistItem item) {
         for (Bacheca b : bacheche) {

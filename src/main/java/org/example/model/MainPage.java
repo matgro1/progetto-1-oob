@@ -1,10 +1,8 @@
-package org.example;
+package org.example.model;
 
-import org.example.model.*;
+import org.example.Home;
 
 import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
@@ -17,6 +15,7 @@ public class MainPage {
     private JButton logoutButton;
     private JButton creaBachecaButton;
     public MainPage(JFrame frame, Utente utente){
+
         DefaultListModel<Bacheca> bachecheModel = new DefaultListModel<>();
         for (Bacheca bacheca : utente.getBacheche()) {
             bachecheModel.addElement(bacheca);

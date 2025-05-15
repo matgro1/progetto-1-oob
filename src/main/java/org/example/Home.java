@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.model.MainPage;
 import org.example.model.Utente;
 
 import javax.swing.*;
@@ -21,7 +22,12 @@ public class Home {
     private static JFrame frame;
     public static void main(String[] args) {
 
+
         utenti.add(new Utente("user", "pass"));
+        Utente utenteProva= utenti.get(0);
+        utenteProva.accesso("user","pass");
+        utenteProva.creaBacheca("prova","lorem ipsum");
+        utenteProva.logout();
         frame = new JFrame("login");
         frame.setSize(800, 600);
         frame.setContentPane(new Home().login);
