@@ -5,12 +5,9 @@ import org.example.model.Utente;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.List;
 
-public class home {
+public class Home {
 
     private static ArrayList<Utente> utenti = new ArrayList<>();
     private static Utente utenteCorrente = null;
@@ -26,13 +23,12 @@ public class home {
 
         utenti.add(new Utente("user", "pass"));
         frame = new JFrame("login");
-        frame.setContentPane(new home().login);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
         frame.setSize(800, 600);
+        frame.setContentPane(new Home().login);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
-    public home() {
+    public Home() {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,8 +42,16 @@ public class home {
                     // Usa .equals() per confrontare il contenuto delle stringhe
                     if (u.getLogin().equals(inputUsername) && u.getPassword().equals(inputPassword)) {
                         System.out.println("sgrodolix");
+
+                        u.accesso(inputUsername, inputPassword);
                         loggedIn = true;
                         utenteCorrente = u;
+                        frame.setVisible(true);
+                        frame.getContentPane().removeAll();
+                        frame.setContentPane(new MainPage(frame, utenteCorrente).getMainPage());
+                        frame.revalidate();
+                        frame.repaint();
+
                         break;
                     }
                 }
@@ -77,6 +81,10 @@ public class home {
             }
         });
 
+    }
+    // Da aggiungere nella classe Home
+    public JPanel getLoginPanel() {
+        return login;
     }
 
 }

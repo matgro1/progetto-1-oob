@@ -29,7 +29,6 @@ public class Bacheca {
         this.descrizione = descrizione;
     }
 
-    // Metodo per rimuovere un ToDo dalla bacheca
     public void removeToDo(String nome, LocalDate dataScadenza) {
         int i = 0;
         for (ToDo td : todo) {
