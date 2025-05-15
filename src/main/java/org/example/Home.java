@@ -39,7 +39,6 @@ public class Home {
 
                 boolean loggedIn = false;
                 for (Utente u : utenti) {
-                    // Usa .equals() per confrontare il contenuto delle stringhe
                     if (u.getLogin().equals(inputUsername) && u.getPassword().equals(inputPassword)) {
                         System.out.println("sgrodolix");
 

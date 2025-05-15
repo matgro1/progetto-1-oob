@@ -3,6 +3,10 @@ package org.example;
 import org.example.model.*;
 
 import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +32,7 @@ public class MainPage {
                 frame.repaint();
             }
         });
+
         creaBachecaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,7 +43,18 @@ public class MainPage {
 
             }
         });
+        bachecheList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    Bacheca bachecaSelezionata = bachecheList.getSelectedValue();
+                    if (bachecaSelezionata != null) {
+                        System.out.println("Hai selezionato: " + bachecaSelezionata);
+                    }
+                }
 
+            }
+        });
     }
     public JPanel getMainPage() {
         return mainPage;
