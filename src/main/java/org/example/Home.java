@@ -7,11 +7,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
+// todo si deve gestire con un controller non direttamente
+// todo esportarlo come jar
 public class Home {
 
     private static ArrayList<Utente> utenti = new ArrayList<>();
-    private static Utente utenteCorrente = null;
 
 
     private JPanel login;
@@ -31,7 +33,7 @@ public class Home {
         frame = new JFrame("login");
         frame.setSize(800, 600);
         frame.setContentPane(new Home().login);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
     public Home() {
@@ -46,14 +48,12 @@ public class Home {
                 boolean loggedIn = false;
                 for (Utente u : utenti) {
                     if (u.getLogin().equals(inputUsername) && u.getPassword().equals(inputPassword)) {
-                        System.out.println("sgrodolix");
 
                         u.accesso(inputUsername, inputPassword);
                         loggedIn = true;
-                        utenteCorrente = u;
                         frame.setVisible(true);
                         frame.getContentPane().removeAll();
-                        frame.setContentPane(new MainPage(frame, utenteCorrente).getMainPage());
+                        frame.setContentPane(new MainPage(frame, u).getMainPage());
                         frame.revalidate();
                         frame.repaint();
 
@@ -63,15 +63,14 @@ public class Home {
 
                 if (!loggedIn) {
                     JOptionPane.showMessageDialog(login, "Nome utente o password non validi!", "Errore di Login", JOptionPane.ERROR_MESSAGE);
-                    System.out.println("Credenziali non valide o utente non trovato.");
+                    Logger logger = Logger.getLogger(getClass().getName());
+                    logger.info("Credenziali non valide o utente non trovato.");
                 }
 
             }
 
         });
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        registerButton.addActionListener(e-> {
                 String inputUsername = username.getText();
                 char[] inputPasswordChars = password.getPassword();
 
@@ -83,7 +82,6 @@ public class Home {
                 else{
                     utenti.add(new Utente(inputUsername,inputPassword));
                 }
-            }
         });
 
     }

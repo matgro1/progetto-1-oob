@@ -4,13 +4,14 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Random;
 public class ToDo {
     protected String titolo;
     protected LocalDate dataScadenza;
     protected String id;
     protected String url;
-    protected ImageIcon immaggine;
+    protected ImageIcon immagine;
     protected ColorUIResource colore;
     protected Stato stato;
     protected ArrayList<ChecklistItem> checklist;
@@ -20,8 +21,13 @@ public class ToDo {
         dataScadenza = dS;
         id = generaId();
         url = "";
-        immaggine = new ImageIcon("img/img.png");
-        colore = new ColorUIResource((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
+        immagine = new ImageIcon("img/img.png");
+        Random random = new Random();
+        colore = new ColorUIResource(
+                random.nextInt(256),
+                random.nextInt(256),
+                random.nextInt(256)
+        );
         stato = Stato.INCORSO;
         checklist = new ArrayList<>();
     }
@@ -69,7 +75,7 @@ public class ToDo {
         }
     }
 
-    public ArrayList<ChecklistItem> getChecklist() {
+    public List<ChecklistItem> getChecklist() {
         return checklist;
     }
     @Override

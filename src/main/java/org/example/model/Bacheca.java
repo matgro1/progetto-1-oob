@@ -2,6 +2,7 @@ package org.example.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Bacheca {
     private String titolo;
@@ -10,7 +11,7 @@ public class Bacheca {
         return getNome();
     }
     private String descrizione;
-    private ArrayList<ToDo> todo = new ArrayList<ToDo>();
+    private ArrayList<ToDo> todo = new ArrayList<>();
 
     public Bacheca(String t, String desc) {
         titolo = t;
@@ -43,7 +44,10 @@ public class Bacheca {
         todo.add(toDo);
     }
 
-    public ArrayList<ToDo> getToDo() {
+    public List<ToDo> getToDo() {
         return todo;
+    }
+    public String getDescrizione(){
+        return descrizione;
     }
 }
