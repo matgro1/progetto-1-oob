@@ -1,7 +1,6 @@
 package org.example.model;
 import java.time.LocalDate;
 import javax.swing.*;
-//todo usare una finestra modale invece di sta merda
 public class CreaToDoPage {
     private JPanel creaToDoPagePanel;
     private JTextField titoloField;

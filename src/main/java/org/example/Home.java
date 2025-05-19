@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-// todo si deve gestire con un controller non direttamente
-// todo esportarlo come jar
+// todo!!! si deve gestire con un controller non direttamente
+// todo!!! esportarlo come jar
 public class Home {
 
     private static ArrayList<Utente> utenti = new ArrayList<>();
