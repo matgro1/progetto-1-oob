@@ -20,7 +20,8 @@ public class BachecaMainPageControllerImpl implements BachecaMainPageController{
 
     @Override
     public void setTitolo(JTextField titolo, Bacheca bacheca) {
-
+        titolo.setText(bacheca.getNome());
+        titolo.setEditable(false);
     }
 
     @Override
