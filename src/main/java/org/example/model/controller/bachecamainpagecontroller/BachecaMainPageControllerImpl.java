@@ -1,11 +1,9 @@
 package org.example.model.controller.bachecamainpagecontroller;
 
-import org.example.model.Bacheca;
-import org.example.model.CreaToDoPage;
-import org.example.model.MainPage;
-import org.example.model.Utente;
+import org.example.model.*;
 
 import javax.swing.*;
+import java.util.List;
 
 public class BachecaMainPageControllerImpl implements BachecaMainPageController{
     public void returnToMainPage(JFrame frame, Utente utente) {
@@ -15,8 +13,41 @@ public class BachecaMainPageControllerImpl implements BachecaMainPageController{
         frame.repaint();
     }
 
+    public void setDescrizione(JTextArea descrizione, Bacheca bacheca) {
+        descrizione.setText(bacheca.getDescrizione());
+        descrizione.setEditable(false);
+    }
+
     @Override
-    public void goToCreaBachecaPage(JFrame frame, Bacheca bacheca, Utente utente) {
+    public void setTitolo(JTextField titolo, Bacheca bacheca) {
+
+    }
+
+    @Override
+    public DefaultListModel<ToDo> defaultListModelCreator(List<ToDo> todos) {
+
+        DefaultListModel<ToDo> toDoListModel = new DefaultListModel<>();
+        for (ToDo todo : todos){
+            toDoListModel.addElement(todo);
+        }
+        return toDoListModel;
+    }
+
+    @Override
+    public void modificaBacheca(Bacheca bacheca, JFrame frame) {
+        ModificaBacheca dialog = new ModificaBacheca(bacheca, frame);
+        dialog.setVisible(true);
+
+        // Se l'utente ha confermato le modifiche, aggiorna l'interfaccia
+        if (dialog.isModificaConfermata()) {
+            // Aggiorna l'interfaccia se necessario
+            // Ad esempio, aggiorna il titolo della finestra o altri componenti
+            frame.setTitle("Bacheca: " + bacheca.getNome());
+        }
+    }
+
+    @Override
+    public void goToCreaToDoPage(JFrame frame, Bacheca bacheca, Utente utente) {
         frame.getContentPane().removeAll();
         frame.setContentPane(new CreaToDoPage(frame,bacheca,utente).getCreaToDoPage());
         frame.revalidate();

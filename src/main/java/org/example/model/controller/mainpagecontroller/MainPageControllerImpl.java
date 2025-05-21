@@ -25,7 +25,7 @@ public class MainPageControllerImpl implements MainPageController{
         for (Bacheca bacheca : bacheche) {
             bachecheModel.addElement(bacheca);
         }
-        return null;
+        return bachecheModel;
     }
 
     @Override
@@ -35,6 +35,7 @@ public class MainPageControllerImpl implements MainPageController{
         frame.revalidate();
         frame.repaint();
     }
+
 
     @Override
     public void goToBachecaMainPage(ListSelectionEvent e, JFrame frame, Bacheca bachecaSelezionata, Utente utente) {

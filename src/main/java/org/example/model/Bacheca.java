@@ -33,7 +33,7 @@ public class Bacheca {
     public void removeToDo(String nome, LocalDate dataScadenza) {
         int i = 0;
         for (ToDo td : todo) {
-            if (td.getId().equals(td.getClass().toString() + "-" + dataScadenza.toString() + "-" + nome.replaceAll("\\s+", "_"))) {
+            if (td.getId().equals(td.getClass() + "-" + dataScadenza.toString() + "-" + nome.replaceAll("\\s+", "_"))) {
                 todo.remove(i);
             }
             i++;

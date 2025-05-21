@@ -1,5 +1,6 @@
 package org.example.model;
 import org.example.model.controller.bachecamainpagecontroller.BachecaMainPageController;
+import org.example.model.controller.bachecamainpagecontroller.BachecaMainPageControllerImpl;
 
 import javax.swing.*;
 
@@ -8,22 +9,23 @@ public class BachecaMainPage {
     private JPanel bachecaMainPagePanel;
     private JButton aggiungiButton;
     private JButton indietroButton;
-    private BachecaMainPageController controller;
+    private JButton modificaButton;
+    private JTextArea descrizione;
+    private JTextField titolo;
+    private final BachecaMainPageController controller= new BachecaMainPageControllerImpl();
 
 
     public BachecaMainPage(JFrame frame, Bacheca bacheca, Utente utente){
-        DefaultListModel<ToDo> toDoListModel = new DefaultListModel<>();
-        for (ToDo todo : bacheca.getToDo()){
-            toDoListModel.addElement(todo);
-        }
-        toDoList.setModel(toDoListModel);
+        controller.setDescrizione(descrizione,bacheca);
+        toDoList.setModel(controller.defaultListModelCreator(bacheca.getToDo()));
         indietroButton.addActionListener(e-> controller.returnToMainPage(frame,utente));
-        aggiungiButton.addActionListener(e-> controller.goToCreaBachecaPage(frame,bacheca,utente));
+        aggiungiButton.addActionListener(e-> controller.goToCreaToDoPage(frame,bacheca,utente));
 
-
-
+        modificaButton.addActionListener(e -> {
+            controller.modificaBacheca(bacheca, frame);
+            controller.setDescrizione(descrizione, bacheca);
+        });
     }
-
     public JPanel getBachecaMainPage(){
         return bachecaMainPagePanel;
     }
