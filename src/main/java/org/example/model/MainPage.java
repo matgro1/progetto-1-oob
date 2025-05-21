@@ -2,7 +2,7 @@ package org.example.model;
 
 import javax.swing.*;
 import org.example.model.controller.mainpagecontroller.MainPageControllerImpl;
-
+// todo implementare modifica utente
 public class MainPage {
 
     private JPanel mainPagePanel;

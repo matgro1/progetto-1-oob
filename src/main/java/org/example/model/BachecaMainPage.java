@@ -3,7 +3,7 @@ import org.example.model.controller.bachecamainpagecontroller.BachecaMainPageCon
 import org.example.model.controller.bachecamainpagecontroller.BachecaMainPageControllerImpl;
 
 import javax.swing.*;
-
+//credo finito
 public class BachecaMainPage {
     private JList<ToDo> toDoList;
     private JPanel bachecaMainPagePanel;

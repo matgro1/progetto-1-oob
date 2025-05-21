@@ -15,6 +15,7 @@ public class ModificaBacheca extends JDialog {
     private boolean modificaConfermata = false;
 
     private final transient Bacheca bacheca;
+    //todo come cazzo ho fatto a programmarlo dopo aver fatto i controller e NON aver usato un controller(top 3 mongoloidi? capiamo)
 
     public ModificaBacheca(Bacheca bacheca, JFrame frame) {
         super(frame, "Modifica Bacheca", true); // Imposta il frame padre e il titolo

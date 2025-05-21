@@ -1,4 +1,7 @@
 package org.example.model;
+import org.example.model.controller.creatodopagecontroller.CreaToDoPageController;
+import org.example.model.controller.creatodopagecontroller.CreaToDoPageControllerImpl;
+
 import java.time.LocalDate;
 import javax.swing.*;
 public class CreaToDoPage {
@@ -9,27 +12,21 @@ public class CreaToDoPage {
     private JSpinner anno;
     private JButton annullaButton;
     private JButton creaButton;
+    private JCheckBox condivisoCheckBox;
+    private JTextField nomeUtenteCondiviso;
+    private JLabel condivisoLabel;
 
+    CreaToDoPageController controller= new CreaToDoPageControllerImpl();
     public CreaToDoPage(JFrame frame,Bacheca bacheca,Utente returnUtente) {
-        SpinnerNumberModel giornoModel = new SpinnerNumberModel(1, 1, 31, 1);
-        giorno.setModel(giornoModel);
-        SpinnerNumberModel meseModel = new SpinnerNumberModel(1, 1, 12, 1);
-        mese.setModel(meseModel);
-        SpinnerNumberModel annoModel = new SpinnerNumberModel(2025, 2025, 2050, 1);
-        anno.setModel(annoModel);
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(anno, "#");
-        anno.setEditor(editor);
-        annullaButton.addActionListener(e-> {
-                frame.getContentPane().removeAll();
-                frame.setContentPane(new BachecaMainPage(frame, bacheca, returnUtente).getBachecaMainPage());
-                frame.revalidate();
-                frame.repaint();
-        });
+        controller.inizializzazione(giorno,mese,anno,nomeUtenteCondiviso,condivisoLabel);
+
+        annullaButton.addActionListener(e-> controller.returnBachecaMainPage(frame, bacheca, returnUtente));
+        condivisoCheckBox.addActionListener(e->controller.updateScreen(condivisoCheckBox,nomeUtenteCondiviso,condivisoLabel));
         creaButton.addActionListener(e->{
+            //todo implementare condiviso o no
             int g = (int) giorno.getValue();
             int m = (int) mese.getValue();
             int a = (int) anno.getValue();
-
             LocalDate data = LocalDate.of(a, m, g);
             bacheca.getToDo().add(new ToDo(titoloField.getText(),data));
             frame.getContentPane().removeAll();
@@ -37,9 +34,6 @@ public class CreaToDoPage {
             frame.revalidate();
             frame.repaint();
         });
-
-
-
     }
 
     public JPanel getCreaToDoPage() {
