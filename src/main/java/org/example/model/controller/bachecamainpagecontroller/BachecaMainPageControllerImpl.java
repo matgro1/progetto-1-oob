@@ -48,6 +48,14 @@ public class BachecaMainPageControllerImpl implements BachecaMainPageController{
     }
 
     @Override
+    public void updateScreen(JTextField titolo, JTextArea descrizione, JFrame frame, Bacheca bacheca) {
+
+        this.modificaBacheca(bacheca, frame);
+        this.setDescrizione(descrizione, bacheca);
+        this.setTitolo(titolo,bacheca);
+    }
+
+    @Override
     public void goToCreaToDoPage(JFrame frame, Bacheca bacheca, Utente utente) {
         frame.getContentPane().removeAll();
         frame.setContentPane(new CreaToDoPage(frame,bacheca,utente).getCreaToDoPage());

@@ -15,4 +15,5 @@ public interface BachecaMainPageController {
     void setTitolo(JTextField titolo, Bacheca bacheca);
     DefaultListModel<ToDo> defaultListModelCreator(List<ToDo> todos);
     void modificaBacheca(Bacheca bacheca,JFrame frame);
+    void updateScreen(JTextField titolo, JTextArea descrizione,JFrame frame, Bacheca bacheca);
 }

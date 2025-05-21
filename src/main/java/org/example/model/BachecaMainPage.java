@@ -21,12 +21,7 @@ public class BachecaMainPage {
         toDoList.setModel(controller.defaultListModelCreator(bacheca.getToDo()));
         indietroButton.addActionListener(e-> controller.returnToMainPage(frame,utente));
         aggiungiButton.addActionListener(e-> controller.goToCreaToDoPage(frame,bacheca,utente));
-
-        modificaButton.addActionListener(e -> {
-            controller.modificaBacheca(bacheca, frame);
-            controller.setDescrizione(descrizione, bacheca);
-            controller.setTitolo(titolo,bacheca);
-        });
+        modificaButton.addActionListener(e -> controller.updateScreen(titolo,descrizione,frame,bacheca));
     }
     public JPanel getBachecaMainPage(){
         return bachecaMainPagePanel;
