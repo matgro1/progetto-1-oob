@@ -1,63 +1,42 @@
+
 package org.example.model;
-
+import org.example.model.controller.modificabachecacontroller.ModificaBachecaController;
+import org.example.model.controller.modificabachecacontroller.ModificaBachecaControllerImpl;
 import javax.swing.*;
-
 public class ModificaBacheca extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField titoloField;
     private JTextField descrizioneField;
-
-    // Variabili per conservare i valori modificati
     private String titoloModificato;
     private String descrizioneModificata;
     private boolean modificaConfermata = false;
+    private ModificaBachecaController controller = new ModificaBachecaControllerImpl();
 
-    private final transient Bacheca bacheca;
-    //todo come cazzo ho fatto a programmarlo dopo aver fatto i controller e NON aver usato un controller(top 3 mongoloidi? capiamo)
-
-    public ModificaBacheca(Bacheca bacheca, JFrame frame) {
-        super(frame, "Modifica Bacheca", true);
-        this.bacheca = bacheca;
-
+    public ModificaBacheca(Bacheca bacheca) {
         titoloField.setText(bacheca.getNome());
         descrizioneField.setText(bacheca.getDescrizione());
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-
         buttonOK.addActionListener(e -> {
             titoloModificato = titoloField.getText();
             descrizioneModificata = descrizioneField.getText();
             onOK();
         });
-
         buttonCancel.addActionListener(e -> onCancel());
-
-        // Configura dimensioni e posizione
         pack();
-        setLocationRelativeTo(frame);
+        setLocationRelativeTo(null);
     }
-
     private void onOK() {
-        // Modifica il titolo e la descrizione della bacheca
-        if (bacheca != null) {
-            bacheca.setTitolo(titoloModificato);
-            bacheca.setDescrizione(descrizioneModificata);
-            modificaConfermata = true;
-        }
+        controller.ok(titoloModificato,descrizioneModificata);
+        modificaConfermata=true;
         dispose();
     }
-
     private void onCancel() {
-        // Imposta i valori modificati a null o ai valori originali
-        titoloModificato = null;
-        descrizioneModificata = null;
-        modificaConfermata = false;
         dispose();
     }
-
     public boolean isModificaConfermata() {
         return modificaConfermata;
     }

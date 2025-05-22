@@ -33,7 +33,7 @@ public class BachecaMainPageControllerImpl extends Controller implements Bacheca
     }
     @Override
     public void modificaBacheca() {
-        ModificaBacheca dialog = new ModificaBacheca(bacheca, frame);
+        ModificaBacheca dialog = new ModificaBacheca(bacheca);
         dialog.setVisible(true);
 
         // Se l'utente ha confermato le modifiche, aggiorna l'interfaccia
