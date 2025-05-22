@@ -15,13 +15,13 @@ public class BachecaMainPage {
     private final BachecaMainPageController controller= new BachecaMainPageControllerImpl();
 
 
-    public BachecaMainPage(JFrame frame, Bacheca bacheca, Utente utente){
-        controller.setDescrizione(descrizione,bacheca);
-        controller.setTitolo(titolo,bacheca);
-        toDoList.setModel(controller.defaultListModelCreator(bacheca.getToDo()));
-        indietroButton.addActionListener(e-> controller.returnToMainPage(frame,utente));
-        aggiungiButton.addActionListener(e-> controller.goToCreaToDoPage(frame,bacheca,utente));
-        modificaButton.addActionListener(e -> controller.updateScreen(titolo,descrizione,frame,bacheca));
+    public BachecaMainPage(){
+        controller.setDescrizione(descrizione);
+        controller.setTitolo(titolo);
+        toDoList.setModel(controller.defaultListModelCreator());
+        indietroButton.addActionListener(e-> controller.returnToMainPage());
+        aggiungiButton.addActionListener(e-> controller.goToCreaToDoPage());
+        modificaButton.addActionListener(e -> controller.updateScreen(titolo,descrizione));
     }
     public JPanel getBachecaMainPage(){
         return bachecaMainPagePanel;

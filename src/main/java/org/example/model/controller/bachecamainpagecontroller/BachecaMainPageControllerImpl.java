@@ -1,41 +1,38 @@
 package org.example.model.controller.bachecamainpagecontroller;
 
 import org.example.model.*;
+import org.example.model.controller.Controller;
 
 import javax.swing.*;
 import java.util.List;
 
-public class BachecaMainPageControllerImpl implements BachecaMainPageController{
-    public void returnToMainPage(JFrame frame, Utente utente) {
+public class BachecaMainPageControllerImpl extends Controller implements BachecaMainPageController{
+    public void returnToMainPage() {
         frame.getContentPane().removeAll();
-        frame.setContentPane(new MainPage(frame,utente).getMainPage());
+        frame.setContentPane(new MainPage().getMainPage());
         frame.revalidate();
         frame.repaint();
     }
-
-    public void setDescrizione(JTextArea descrizione, Bacheca bacheca) {
+    public void setDescrizione(JTextArea descrizione) {
         descrizione.setText(bacheca.getDescrizione());
         descrizione.setEditable(false);
     }
-
     @Override
-    public void setTitolo(JTextField titolo, Bacheca bacheca) {
+    public void setTitolo(JTextField titolo) {
         titolo.setText(bacheca.getNome());
         titolo.setEditable(false);
     }
-
     @Override
-    public DefaultListModel<ToDo> defaultListModelCreator(List<ToDo> todos) {
-
+    public DefaultListModel<ToDo> defaultListModelCreator() {
+        List<ToDo> todos= bacheca.getToDo();
         DefaultListModel<ToDo> toDoListModel = new DefaultListModel<>();
         for (ToDo todo : todos){
             toDoListModel.addElement(todo);
         }
         return toDoListModel;
     }
-
     @Override
-    public void modificaBacheca(Bacheca bacheca, JFrame frame) {
+    public void modificaBacheca() {
         ModificaBacheca dialog = new ModificaBacheca(bacheca, frame);
         dialog.setVisible(true);
 
@@ -46,19 +43,17 @@ public class BachecaMainPageControllerImpl implements BachecaMainPageController{
             frame.setTitle("Bacheca: " + bacheca.getNome());
         }
     }
-
     @Override
-    public void updateScreen(JTextField titolo, JTextArea descrizione, JFrame frame, Bacheca bacheca) {
+    public void updateScreen(JTextField titolo, JTextArea descrizione) {
 
-        this.modificaBacheca(bacheca, frame);
-        this.setDescrizione(descrizione, bacheca);
-        this.setTitolo(titolo,bacheca);
+        this.modificaBacheca();
+        this.setDescrizione(descrizione);
+        this.setTitolo(titolo);
     }
-
     @Override
-    public void goToCreaToDoPage(JFrame frame, Bacheca bacheca, Utente utente) {
+    public void goToCreaToDoPage() {
         frame.getContentPane().removeAll();
-        frame.setContentPane(new CreaToDoPage(frame,bacheca,utente).getCreaToDoPage());
+        frame.setContentPane(new CreaToDoPage().getCreaToDoPage());
         frame.revalidate();
         frame.repaint();
 

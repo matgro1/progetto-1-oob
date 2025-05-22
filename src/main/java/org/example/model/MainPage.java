@@ -2,6 +2,8 @@ package org.example.model;
 
 import javax.swing.*;
 import org.example.model.controller.mainpagecontroller.MainPageControllerImpl;
+
+
 // todo implementare modifica utente
 public class MainPage {
 
@@ -10,15 +12,15 @@ public class MainPage {
     private JButton logoutButton;
     private JButton creaBachecaButton;
     MainPageControllerImpl controller= new MainPageControllerImpl();
-    public MainPage(JFrame frame, Utente utente){
+    public MainPage(){
 
 
-        bachecheList.setModel(controller.creazioneLista(utente.getBacheche()));
+        bachecheList.setModel(controller.creazioneLista());
 
-        logoutButton.addActionListener(e->controller.returnHome(frame));
+        logoutButton.addActionListener(e->controller.returnHome());
 
-        creaBachecaButton.addActionListener(e->controller.goToCreaBachecaPage(frame,utente));
-        bachecheList.addListSelectionListener(e->controller.goToBachecaMainPage(e,frame, bachecheList.getSelectedValue(),utente));
+        creaBachecaButton.addActionListener(e->controller.goToCreaBachecaPage());
+        bachecheList.addListSelectionListener(e->controller.goToBachecaMainPage(e, bachecheList.getSelectedValue()));
 
     }
     public JPanel getMainPage() {

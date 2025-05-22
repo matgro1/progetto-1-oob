@@ -18,7 +18,7 @@ public class ModificaBacheca extends JDialog {
     //todo come cazzo ho fatto a programmarlo dopo aver fatto i controller e NON aver usato un controller(top 3 mongoloidi? capiamo)
 
     public ModificaBacheca(Bacheca bacheca, JFrame frame) {
-        super(frame, "Modifica Bacheca", true); // Imposta il frame padre e il titolo
+        super(frame, "Modifica Bacheca", true);
         this.bacheca = bacheca;
 
         titoloField.setText(bacheca.getNome());

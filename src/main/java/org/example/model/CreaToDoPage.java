@@ -1,10 +1,8 @@
 package org.example.model;
 import org.example.model.controller.creatodopagecontroller.CreaToDoPageController;
 import org.example.model.controller.creatodopagecontroller.CreaToDoPageControllerImpl;
-
-import java.time.LocalDate;
 import javax.swing.*;
-public class CreaToDoPage {
+public class CreaToDoPage{
     private JPanel creaToDoPagePanel;
     private JTextField titoloField;
     private JSpinner giorno;
@@ -17,23 +15,12 @@ public class CreaToDoPage {
     private JLabel condivisoLabel;
 
     CreaToDoPageController controller= new CreaToDoPageControllerImpl();
-    public CreaToDoPage(JFrame frame,Bacheca bacheca,Utente returnUtente) {
+    public CreaToDoPage() {
         controller.inizializzazione(giorno,mese,anno,nomeUtenteCondiviso,condivisoLabel);
 
-        annullaButton.addActionListener(e-> controller.returnBachecaMainPage(frame, bacheca, returnUtente));
+        annullaButton.addActionListener(e-> controller.returnBachecaMainPage());
         condivisoCheckBox.addActionListener(e->controller.updateScreen(condivisoCheckBox,nomeUtenteCondiviso,condivisoLabel));
-        creaButton.addActionListener(e->{
-            //todo implementare condiviso o no
-            int g = (int) giorno.getValue();
-            int m = (int) mese.getValue();
-            int a = (int) anno.getValue();
-            LocalDate data = LocalDate.of(a, m, g);
-            bacheca.getToDo().add(new ToDo(titoloField.getText(),data));
-            frame.getContentPane().removeAll();
-            frame.setContentPane(new BachecaMainPage(frame, bacheca, returnUtente).getBachecaMainPage());
-            frame.revalidate();
-            frame.repaint();
-        });
+        creaButton.addActionListener(e-> controller.creaToDo(creaToDoPagePanel,condivisoCheckBox,titoloField,nomeUtenteCondiviso,giorno,mese,anno));
     }
 
     public JPanel getCreaToDoPage() {
