@@ -20,9 +20,6 @@ public class ChecklistItem {
     public void setStato(StatoChecklist stato) {
         this.stato = stato;
     }
-    public void completa() {
-        this.stato = StatoChecklist.COMPLETATO;
-    }
     public boolean isCompletato() {
         return this.stato == StatoChecklist.COMPLETATO;
     }
