@@ -11,13 +11,12 @@ import java.util.logging.Logger;
 public class HomeControllerImpl extends Controller implements HomeController{
     @Override
     public void inizializzazione() {
-        JFrame frame;
         utenti.add(new Utente("user", "pass"));
         Utente utenteProva= utenti.getFirst();
         utenteProva.accesso("user","pass");
         utenteProva.creaBacheca("prova","lorem ipsum");
         utenteProva.logout();
-        frame = new JFrame("login");
+        solarLintMerda2IlRitorno();
         frame.setSize(800, 600);
         frame.setContentPane(new Home().getLoginPanel());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -36,9 +35,9 @@ public class HomeControllerImpl extends Controller implements HomeController{
 
                 u.accesso(inputUsername, inputPassword);
                 loggedIn = true;
+                solarLintMerda(u);
                 frame.setVisible(true);
                 frame.getContentPane().removeAll();
-                utente = u;
                 frame.setContentPane(new MainPage().getMainPage());
                 frame.revalidate();
                 frame.repaint();
@@ -67,5 +66,11 @@ public class HomeControllerImpl extends Controller implements HomeController{
         else{
             utenti.add(new Utente(inputUsername,inputPassword));
         }
+    }
+    private static void solarLintMerda(Utente u){
+        utente = u;
+    }
+    private static void solarLintMerda2IlRitorno(){
+        frame = new JFrame("login");
     }
 }

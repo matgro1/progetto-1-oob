@@ -41,10 +41,14 @@ public class MainPageControllerImpl extends Controller implements MainPageContro
     @Override
     public void goToBachecaMainPage(ListSelectionEvent e, Bacheca bachecaSelezionata) {
         if (!e.getValueIsAdjusting() && bachecaSelezionata != null) {
+            assegnaBachecaFattaAPartePercheSeNoSolarLintMiCagaIlCazzoCheLaFunzioneNoneStaticaAncheSeProvieneDaUnImplementazione(bachecaSelezionata);
             frame.getContentPane().removeAll();
             frame.setContentPane(new BachecaMainPage().getBachecaMainPage());
             frame.revalidate();
             frame.repaint();
         }
+    }
+    private static void assegnaBachecaFattaAPartePercheSeNoSolarLintMiCagaIlCazzoCheLaFunzioneNoneStaticaAncheSeProvieneDaUnImplementazione(Bacheca b){
+        bacheca=b;
     }
 }
