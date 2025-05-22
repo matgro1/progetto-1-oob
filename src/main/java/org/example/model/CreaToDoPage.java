@@ -13,14 +13,17 @@ public class CreaToDoPage{
     private JCheckBox condivisoCheckBox;
     private JTextField nomeUtenteCondiviso;
     private JLabel condivisoLabel;
+    private JList<ChecklistItem> checkList;
+    private JButton aggiungiCheckButton;
 
     CreaToDoPageController controller= new CreaToDoPageControllerImpl();
     public CreaToDoPage() {
-        controller.inizializzazione(giorno,mese,anno,nomeUtenteCondiviso,condivisoLabel);
+        controller.inizializzazione(giorno,mese,anno,nomeUtenteCondiviso,condivisoLabel,checkList);
 
         annullaButton.addActionListener(e-> controller.returnBachecaMainPage());
         condivisoCheckBox.addActionListener(e->controller.updateScreen(condivisoCheckBox,nomeUtenteCondiviso,condivisoLabel));
-        creaButton.addActionListener(e-> controller.creaToDo(creaToDoPagePanel,condivisoCheckBox,titoloField,nomeUtenteCondiviso,giorno,mese,anno));
+        creaButton.addActionListener(e-> controller.creaToDo(creaToDoPagePanel,condivisoCheckBox,titoloField,nomeUtenteCondiviso,giorno,mese,anno,checkList));
+        aggiungiCheckButton.addActionListener(e -> controller.aggiungiChecklistItem(checkList));
     }
 
     public JPanel getCreaToDoPage() {

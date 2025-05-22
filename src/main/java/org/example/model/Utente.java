@@ -1,13 +1,13 @@
 package org.example.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Utente {
 
     private String login;
     private String password;
-    private ArrayList<Bacheca> bacheche = new ArrayList<Bacheca>();
+    private ArrayList<Bacheca> bacheche = new ArrayList<>();
     private boolean successoAccesso = false;
 
     public Utente(String loginIniz, String passwordIniz) {
@@ -32,8 +32,7 @@ public class Utente {
     }
 
     public void eliminaBacheca(String nome) {
-        if (successoAccesso) {
-            if (!bacheche.isEmpty()) {
+        if (successoAccesso &&!bacheche.isEmpty()) {
                 for (Bacheca b : bacheche) {
                     if (b.getNome().equals(nome)) {
                         bacheche.remove(b);
@@ -42,7 +41,7 @@ public class Utente {
                 }
             }
         }
-    }
+
 
 
     
@@ -69,11 +68,8 @@ public class Utente {
         return password;
     }
 
-    public ArrayList<Bacheca> getBacheche() {
+    public List<Bacheca> getBacheche() {
         return bacheche;
     }
 
-    public boolean isAccesso() {
-        return successoAccesso;
-    }
 }

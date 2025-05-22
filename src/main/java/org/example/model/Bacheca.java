@@ -40,9 +40,6 @@ public class Bacheca {
         }
     }
 
-    public void aggiungiToDo(ToDo toDo) {
-        todo.add(toDo);
-    }
 
     public List<ToDo> getToDo() {
         return todo;

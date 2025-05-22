@@ -33,7 +33,7 @@ public class ToDo {
     }
 
     private String generaId() {
-        return getClass().toString() + "-" + dataScadenza + "-" + titolo.replaceAll("\\s+", "_");
+        return getClass() + "-" + dataScadenza + "-" + titolo.replaceAll("\\s+", "_");
     }
 
     public String getId() {
