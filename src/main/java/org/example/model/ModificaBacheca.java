@@ -1,4 +1,4 @@
-
+//odio i dialog
 package org.example.model;
 import org.example.model.controller.modificabachecacontroller.ModificaBachecaController;
 import org.example.model.controller.modificabachecacontroller.ModificaBachecaControllerImpl;
