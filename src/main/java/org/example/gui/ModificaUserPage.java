@@ -30,7 +30,7 @@ public class ModificaUserPage extends JDialog {
             public void windowClosing(WindowEvent e) {
                 onCancel();
             }
-        });
+        });//
 
         contentPane.registerKeyboardAction(e->onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
