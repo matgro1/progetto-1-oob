@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.model.controller.homecontroller.HomeController;
-import org.example.model.controller.homecontroller.HomeControllerImpl;
+import org.example.controller.homecontroller.HomeController;
+import org.example.controller.homecontroller.HomeControllerImpl;
 
 import javax.swing.*;
 
@@ -20,8 +20,10 @@ public class Home {
         controller.inizializzazione();
     }
     public Home() {
+
         loginButton.addActionListener(e->controller.goToMainPage(username,password,login));
         registerButton.addActionListener(e-> controller.addUser(username,password,login));
+
     }
     // Da aggiungere nella classe Home
     public JPanel getLoginPanel() {

@@ -1,11 +1,16 @@
 package org.example.model;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Utente {
 
+    // Getters
+    @Getter
     private String login;
+    @Getter
     private String password;
     private ArrayList<Bacheca> bacheche = new ArrayList<>();
     private boolean successoAccesso = false;
@@ -59,15 +64,10 @@ public class Utente {
         }
     }
 
-    // Getters
-    public String getLogin() {
-        return login;
+    public void changeUser(String username, String pss){
+        login = username;
+        password = pss;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
     public List<Bacheca> getBacheche() {
         return bacheche;
     }
