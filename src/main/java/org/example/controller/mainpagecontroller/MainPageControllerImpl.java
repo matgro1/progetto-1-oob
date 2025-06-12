@@ -1,6 +1,7 @@
 package org.example.controller.mainpagecontroller;
 
 import org.example.Home;
+import org.example.gui.ModificaUserPage;
 import org.example.model.Bacheca;
 import org.example.gui.BachecaMainPage;
 import org.example.gui.CreaBachecaPage;
@@ -39,7 +40,10 @@ public class MainPageControllerImpl extends ControllerFather implements MainPage
 
     @Override
     public void goToDialogModificaUtente() {
-
+        ModificaUserPage dialog= new ModificaUserPage();
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
     }
 
 

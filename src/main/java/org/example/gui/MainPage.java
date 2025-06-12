@@ -5,7 +5,6 @@ import org.example.controller.mainpagecontroller.MainPageControllerImpl;
 import org.example.model.Bacheca;
 
 
-// todo implementare modifica utente
 public class MainPage {
 
     private JPanel mainPagePanel;
@@ -21,7 +20,7 @@ public class MainPage {
 
         logoutButton.addActionListener(e->controller.returnHome());
 
-        modificaUtenteButton.addActionListener(e -> );
+        modificaUtenteButton.addActionListener(e ->controller.goToDialogModificaUtente());
         creaBachecaButton.addActionListener(e->controller.goToCreaBachecaPage());
         bachecheList.addListSelectionListener(e->controller.goToBachecaMainPage(e, bachecheList.getSelectedValue()));
 

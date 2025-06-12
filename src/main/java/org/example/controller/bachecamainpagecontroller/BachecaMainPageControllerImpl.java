@@ -39,10 +39,7 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
         ModificaBachecaPage dialog = new ModificaBachecaPage(bacheca);
         dialog.setVisible(true);
 
-        // Se l'utente ha confermato le modifiche, aggiorna l'interfaccia
         if (dialog.isModificaConfermata()) {
-            // Aggiorna l'interfaccia se necessario
-            // Ad esempio, aggiorna il titolo della finestra o altri componenti
             frame.setTitle("Bacheca: " + bacheca.getNome());
         }
     }
