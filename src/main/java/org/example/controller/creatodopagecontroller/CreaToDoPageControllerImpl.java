@@ -22,8 +22,7 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         condivisoLabel.setVisible(false);
         nomeUtenteCondiviso.setVisible(false);
 
-        DefaultListModel<ChecklistItem> model;
-        model = new DefaultListModel<>();
+        DefaultListModel<ChecklistItem> model = new DefaultListModel<>();
         checkList.setModel(model);
     }
     @Override
