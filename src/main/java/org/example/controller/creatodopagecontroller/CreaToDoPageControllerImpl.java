@@ -98,8 +98,10 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         DefaultListModel<ChecklistItem> model = (DefaultListModel<ChecklistItem>) checkList.getModel();
         if (model != null) {
             for (int i = 0; i < model.getSize(); i++) {
-                ChecklistItem item = model.getElementAt(i);
-                nuovoToDo.aggiungiChecklistItem(item);
+                ChecklistItem originalItem = model.getElementAt(i);
+                ChecklistItem copiedItem = new ChecklistItem(originalItem.getDescrizione());
+                copiedItem.setStato(originalItem.getStato());
+                nuovoToDo.aggiungiChecklistItem(copiedItem);
             }
         }
 

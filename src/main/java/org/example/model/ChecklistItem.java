@@ -1,26 +1,27 @@
 package org.example.model;
 
+import lombok.*;
+
 public class ChecklistItem {
     private String descrizione;
-    private StatoChecklist stato;
+    @Setter
+    private Boolean stato;
     @Override
     public String toString() {
-        return descrizione + (stato == StatoChecklist.COMPLETATO ? " ✓" : "");
+        return descrizione + (stato == true ? " ✓" : "");
     }
     public ChecklistItem(String descrizione) {
         this.descrizione = descrizione;
-        this.stato = StatoChecklist.NONCOMPLETATO;
+        this.stato = false;
     }
     public String getDescrizione() {
         return descrizione;
     }
-       public StatoChecklist getStato() {
+    public Boolean getStato() {
         return stato;
     }
-    public void setStato(StatoChecklist stato) {
-        this.stato = stato;
-    }
+
     public boolean isCompletato() {
-        return this.stato == StatoChecklist.COMPLETATO;
+        return this.stato;
     }
 }

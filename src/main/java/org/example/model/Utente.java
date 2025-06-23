@@ -12,6 +12,7 @@ public class Utente {
     private String login;
     @Getter
     private String password;
+
     private ArrayList<Bacheca> bacheche = new ArrayList<>();
     private boolean successoAccesso = false;
 
