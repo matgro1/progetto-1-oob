@@ -3,11 +3,12 @@ package org.example.controller.bachecamainpagecontroller;
 import org.example.model.ToDo;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 
 public interface BachecaMainPageController {
     void returnToMainPage();
     void goToCreaToDoPage();
-
+    void goToToDoDetailsPage(ListSelectionEvent e, ToDo toDoSelezionato);
     void setDescrizione(JTextArea descrizione);
     void setTitolo(JTextField titolo);
     DefaultListModel<ToDo> defaultListModelCreator();

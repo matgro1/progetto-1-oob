@@ -24,6 +24,7 @@ public class BachecaMainPage {
         indietroButton.addActionListener(e-> controller.returnToMainPage());
         aggiungiButton.addActionListener(e-> controller.goToCreaToDoPage());
         modificaButton.addActionListener(e -> controller.updateScreen(titolo,descrizione));
+        toDoList.addListSelectionListener(e -> controller.goToToDoDetailsPage(e, toDoList.getSelectedValue()));
     }
     public JPanel getBachecaMainPage(){
         return bachecaMainPagePanel;

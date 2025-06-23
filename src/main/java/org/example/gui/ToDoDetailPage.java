@@ -13,7 +13,7 @@ public class ToDoDetailPage extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        nomeToDoLabel.setText();
+        nomeToDoLabel.setText("a");
         buttonOK.addActionListener(e->onOK());
         buttonCancel.addActionListener(e->onCancel());
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

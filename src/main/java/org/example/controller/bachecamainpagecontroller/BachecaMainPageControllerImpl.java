@@ -1,12 +1,11 @@
 package org.example.controller.bachecamainpagecontroller;
 
-import org.example.gui.CreaToDoPage;
-import org.example.gui.MainPage;
-import org.example.gui.ModificaBachecaPage;
+import org.example.gui.*;
 import org.example.model.*;
 import org.example.controller.ControllerFather;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.util.List;
 
 public class BachecaMainPageControllerImpl extends ControllerFather implements BachecaMainPageController{
@@ -57,5 +56,19 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
         frame.revalidate();
         frame.repaint();
 
+    }
+
+    @Override
+    public void goToToDoDetailsPage(ListSelectionEvent e, ToDo toDoSelezionato) {
+        if (!e.getValueIsAdjusting() && toDoSelezionato != null) {
+            setToDo(toDoSelezionato);
+            ToDoDetailPage dialog= new ToDoDetailPage();
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        }
+    }
+    private static void setToDo(ToDo td){
+        todo=td;
     }
 }
