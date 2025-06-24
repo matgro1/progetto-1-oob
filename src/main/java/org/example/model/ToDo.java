@@ -1,5 +1,8 @@
 package org.example.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.time.LocalDate;
@@ -13,7 +16,8 @@ public class ToDo {
     protected String url;
     protected ImageIcon immagine;
     protected ColorUIResource colore;
-    protected Stato stato;
+    @Getter @Setter
+    protected boolean stato;
     protected ArrayList<ChecklistItem> checklist;
 
     public ToDo(String t, LocalDate dS) {
@@ -28,7 +32,7 @@ public class ToDo {
                 random.nextInt(256),
                 random.nextInt(256)
         );
-        stato = Stato.INCORSO;
+        stato = false;
         checklist = new ArrayList<>();
     }
 
@@ -47,14 +51,12 @@ public class ToDo {
     public LocalDate getDataScadenza() {
         return dataScadenza;
     }
-
-    public Stato getStato() {
+    public boolean getStato() {
         return stato;
     }
 
-    public void setStato(Stato stato) {
-        this.stato = stato;
-    }
+
+
 
     public void aggiungiChecklistItem(ChecklistItem item) {
         checklist.add(item);
@@ -71,7 +73,7 @@ public class ToDo {
 
     public void verificaChecklist() {
         if (tuttiCompletati()) {
-            this.stato = Stato.COMPLETO;
+            this.stato = true;
         }
     }
 

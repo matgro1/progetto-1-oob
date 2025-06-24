@@ -5,7 +5,6 @@ import org.example.controller.homecontroller.HomeControllerImpl;
 
 import javax.swing.*;
 
-// todo!!! esportarlo come jar
 public class Home {
 
 

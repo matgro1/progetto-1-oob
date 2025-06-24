@@ -6,9 +6,27 @@ import org.example.controller.ControllerFather;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
+import java.time.LocalDate;
 import java.util.List;
 
 public class BachecaMainPageControllerImpl extends ControllerFather implements BachecaMainPageController{
+    private JList<ToDo> completeList;
+    private JList<ToDo> noCompleteList;
+    private JList<ToDo> expiredList;
+    @Override
+    public void setJLists(JList<ToDo> complete, JList<ToDo> noComplete, JList<ToDo> expired) {
+        this.completeList = complete;
+        this.noCompleteList = noComplete;
+        this.expiredList = expired;
+        defaultListModelCreator(completeList, noCompleteList, expiredList); // Popola all'inizio
+    }
+    @Override
+    public void refreshToDoLists() {
+        if (completeList != null && noCompleteList != null && expiredList != null) {
+            defaultListModelCreator(completeList, noCompleteList, expiredList);
+        }
+    }
+
     public void returnToMainPage() {
         frame.getContentPane().removeAll();
         frame.setContentPane(new MainPage().getMainPage());
@@ -25,13 +43,26 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
         titolo.setEditable(false);
     }
     @Override
-    public DefaultListModel<ToDo> defaultListModelCreator() {
+    public void defaultListModelCreator(JList<ToDo> complete, JList<ToDo> noComplete,JList<ToDo> expired) {
         List<ToDo> todos= bacheca.getToDo();
-        DefaultListModel<ToDo> toDoListModel = new DefaultListModel<>();
-        for (ToDo todo : todos){
-            toDoListModel.addElement(todo);
+        DefaultListModel<ToDo> toDoListModelComplete = new DefaultListModel<>();
+        DefaultListModel<ToDo> toDoListModelNoComplete = new DefaultListModel<>();
+        DefaultListModel<ToDo> toDoListModelExpired = new DefaultListModel<>();
+        for(ToDo todo: todos){
+            todo.verificaChecklist();
+            if(todo.getStato()){
+                toDoListModelComplete.addElement(todo);
+            }
+            else if (todo.getDataScadenza().isBefore(LocalDate.now())){
+                toDoListModelExpired.addElement(todo);
+            }
+            else {
+                toDoListModelNoComplete.addElement(todo);
+            }
         }
-        return toDoListModel;
+        complete.setModel(toDoListModelComplete);
+        noComplete.setModel(toDoListModelNoComplete);
+        expired.setModel(toDoListModelExpired);
     }
     @Override
     public void modificaBacheca() {

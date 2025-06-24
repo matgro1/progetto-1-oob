@@ -7,24 +7,44 @@ import javax.swing.*;
 //credo finito
 // fo sho
 public class BachecaMainPage {
-    private JList<ToDo> toDoList;
+    private JList<ToDo> complete;
     private JPanel bachecaMainPagePanel;
     private JButton aggiungiButton;
     private JButton indietroButton;
     private JButton modificaButton;
     private JTextArea descrizione;
     private JTextField titolo;
+    private JList<ToDo> noComplete;
+    private JList<ToDo> expired;
     private final BachecaMainPageController controller= new BachecaMainPageControllerImpl();
-
+    private boolean isCalled=false;
 
     public BachecaMainPage(){
         controller.setDescrizione(descrizione);
         controller.setTitolo(titolo);
-        toDoList.setModel(controller.defaultListModelCreator());
+        controller.setJLists(complete, noComplete, expired);
+        controller.defaultListModelCreator(complete, noComplete, expired);
         indietroButton.addActionListener(e-> controller.returnToMainPage());
         aggiungiButton.addActionListener(e-> controller.goToCreaToDoPage());
         modificaButton.addActionListener(e -> controller.updateScreen(titolo,descrizione));
-        toDoList.addListSelectionListener(e -> controller.goToToDoDetailsPage(e, toDoList.getSelectedValue()));
+        complete.addListSelectionListener(e -> {
+                if (!e.getValueIsAdjusting() && complete.getSelectedValue() != null) {
+                    controller.goToToDoDetailsPage(e, complete.getSelectedValue());
+                    controller.refreshToDoLists();
+                }
+        });
+        noComplete.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && noComplete.getSelectedValue() != null) {
+                controller.goToToDoDetailsPage(e, noComplete.getSelectedValue());
+                controller.refreshToDoLists();
+            }
+        });
+        expired.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && expired.getSelectedValue() != null) {
+                controller.goToToDoDetailsPage(e, expired.getSelectedValue());
+                controller.refreshToDoLists();
+            }
+        });
     }
     public JPanel getBachecaMainPage(){
         return bachecaMainPagePanel;
