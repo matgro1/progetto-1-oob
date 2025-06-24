@@ -6,6 +6,7 @@ import org.example.model.ToDo;
 import javax.swing.*;
 //credo finito
 // fo sho
+//hell naw
 public class BachecaMainPage {
     private JList<ToDo> complete;
     private JPanel bachecaMainPagePanel;
