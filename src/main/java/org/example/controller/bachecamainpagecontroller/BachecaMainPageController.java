@@ -10,6 +10,7 @@ public interface BachecaMainPageController {
     void goToCreaToDoPage();
     void goToToDoDetailsPage(ListSelectionEvent e, ToDo toDoSelezionato);
     void refreshToDoLists();
+
     void setJLists(JList<ToDo> complete, JList<ToDo> noComplete, JList<ToDo> expired);
     void setDescrizione(JTextArea descrizione);
     void setTitolo(JTextField titolo);

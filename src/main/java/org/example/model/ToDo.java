@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 public class ToDo {
     protected String titolo;
     protected LocalDate dataScadenza;
@@ -51,38 +52,50 @@ public class ToDo {
     public LocalDate getDataScadenza() {
         return dataScadenza;
     }
-    public boolean getStato() {
-        return stato;
-    }
 
-
-
+    // Nota: getter per 'stato' è già fornito da @Getter
 
     public void aggiungiChecklistItem(ChecklistItem item) {
         checklist.add(item);
     }
 
+
     public boolean tuttiCompletati() {
+        // Se la checklist è vuota, non ci sono elementi da completare,
+        // quindi non può essere considerata "tutta completata".
+        if (checklist.isEmpty()) {
+            return false;
+        }
+
+        // Se la checklist non è vuota, controlliamo ogni elemento.
         for (ChecklistItem item : checklist) {
             if (!item.isCompletato()) {
-                return false;
+                return false; // Trovato almeno un elemento non completato
             }
         }
-        return true;
+        return true; // Tutti gli elementi sono completati
     }
 
+
+
     public void verificaChecklist() {
-        if (tuttiCompletati()) {
+        if (!checklist.isEmpty() && tuttiCompletati()) {
             this.stato = true;
+        } else {
+
+            this.stato = false;
         }
     }
 
     public List<ChecklistItem> getChecklist() {
         return checklist;
     }
+
+    public boolean getStato() {
+        return stato;
+    }
     @Override
     public String toString() {
         return getTitolo();
     }
-
 }

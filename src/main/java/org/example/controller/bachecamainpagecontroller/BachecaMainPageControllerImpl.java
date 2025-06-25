@@ -22,9 +22,7 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
     }
     @Override
     public void refreshToDoLists() {
-        if (completeList != null && noCompleteList != null && expiredList != null) {
-            defaultListModelCreator(completeList, noCompleteList, expiredList);
-        }
+        defaultListModelCreator(completeList, noCompleteList, expiredList);
     }
 
     public void returnToMainPage() {
@@ -49,7 +47,10 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
         DefaultListModel<ToDo> toDoListModelNoComplete = new DefaultListModel<>();
         DefaultListModel<ToDo> toDoListModelExpired = new DefaultListModel<>();
         for(ToDo todo: todos){
-            todo.verificaChecklist();
+            if(!todo.getChecklist().isEmpty()){
+                todo.verificaChecklist();
+            }
+
             if(todo.getStato()){
                 toDoListModelComplete.addElement(todo);
             }

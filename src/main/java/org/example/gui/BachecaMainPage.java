@@ -18,7 +18,6 @@ public class BachecaMainPage {
     private JList<ToDo> noComplete;
     private JList<ToDo> expired;
     private final BachecaMainPageController controller= new BachecaMainPageControllerImpl();
-    private boolean isCalled=false;
 
     public BachecaMainPage(){
         controller.setDescrizione(descrizione);

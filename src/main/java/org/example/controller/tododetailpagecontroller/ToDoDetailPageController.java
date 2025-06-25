@@ -6,7 +6,8 @@ import javax.swing.*;
 
 
 public interface ToDoDetailPageController {
-    void initializeGui(JList<ChecklistItem> checklistJList, JLabel nomeToDoLabel);
+
+    void initializeGui(JList<ChecklistItem> checklistJList, JCheckBox completaCheckBox, JLabel nomeToDoLabel, JPanel contentPanel);
     void toggleChecklistItemAction(int index, JList<ChecklistItem> checklistJList);
     void onOkAction();
     void onCancelAction();

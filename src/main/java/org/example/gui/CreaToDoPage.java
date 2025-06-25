@@ -17,6 +17,7 @@ public class CreaToDoPage{
     private JLabel condivisoLabel;
     private JList<ChecklistItem> checkList;
     private JButton aggiungiCheckButton;
+    private JComboBox comboBox1;
 
     CreaToDoPageController controller= new CreaToDoPageControllerImpl();
     public CreaToDoPage() {
