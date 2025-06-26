@@ -3,6 +3,7 @@ package org.example.controller.tododetailpagecontroller;
 import org.example.controller.ControllerFather;
 import org.example.model.ChecklistItem;
 import org.example.model.ToDo;
+import org.example.model.ToDoCondiviso;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,20 +34,21 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
         this.listModel = new DefaultListModel<>();
     }
 
-    /**
-     * Inizializza l'interfaccia utente del pannello di dettaglio ToDo.
-     * Carica i dati del ToDo e visualizza una checklist o una checkbox singola in base al suo contenuto.
-     *
-     * @param checklistJList La JList per visualizzare gli elementi della checklist.
-     * @param completaCheckBox La JCheckBox per indicare lo stato di completamento di un ToDo senza checklist.
-     * @param nomeToDoLabel La JLabel per visualizzare il titolo del ToDo.
-     * @param contentPanel Il JPanel principale dove verranno aggiunti i componenti.
-     */
+
     @Override
-    public void initializeGui(JList<ChecklistItem> checklistJList, JCheckBox completaCheckBox, JLabel nomeToDoLabel, JPanel contentPanel) {
+    public void initializeGui(JList<ChecklistItem> checklistJList, JCheckBox completaCheckBox, JLabel nomeToDoLabel, JPanel contentPanel,JLabel dataScadenza,JLabel ultimaModifica,JLabel utenteCodiviso){
         this.currentChecklistJList = checklistJList;
         this.currentCompletaCheckBox = completaCheckBox;
         this.mainContentPanel = contentPanel;
+        ultimaModifica.setVisible(false);
+        utenteCodiviso.setVisible(false);
+        if(todo instanceof ToDoCondiviso){
+            ToDoCondiviso tdc = (ToDoCondiviso) todo;
+            ultimaModifica.setVisible(true);
+            utenteCodiviso.setVisible(true);
+            ultimaModifica.setText("ultima modifica: " + tdc.getUltimoModificatore());
+            utenteCodiviso.setText("condiviso con: "+ tdc.getUltimoModificatore());
+        }
         nomeToDoLabel.setText(ControllerFather.todo.getTitolo());
 
         List<ChecklistItem> checklist = ControllerFather.todo.getChecklist();
@@ -58,7 +60,6 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
         }
 
         if (checklist != null && !checklist.isEmpty()) {
-            // Caso 1: Il ToDo ha una checklist.
             listModel.clear();
             for (ChecklistItem item : checklist) {
                 listModel.addElement(item);

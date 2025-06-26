@@ -17,21 +17,20 @@ public class ToDoDetailPage extends JDialog {
     private JLabel nomeToDoLabel;
     private JList<ChecklistItem> list1; // Declared, but added conditionally
     private JCheckBox completaCheckBox; // Declared, but added conditionally
+    private JLabel dataScadenza;
+    private JLabel ultimaModifica;
+    private JLabel utenteCodiviso;
     private ToDoDetailPageController controller;
 
-    // Constructor no longer needs to take ToDo, as controller will get it from ControllerFather
     public ToDoDetailPage() {
-        this.controller = new ToDoDetailPageControllerImpl(); // Controller gets ToDo from ControllerFather
+        this.controller = new ToDoDetailPageControllerImpl();
 
-        // Inizializzazione Componenti GUI base
         contentPane = new JPanel(new BorderLayout(5, 5));
         nomeToDoLabel = new JLabel();
         nomeToDoLabel.setHorizontalAlignment(SwingConstants.CENTER);
         nomeToDoLabel.setFont(new Font("Arial", Font.BOLD, 18));
         contentPane.add(nomeToDoLabel, BorderLayout.NORTH);
 
-        // Initialize JList and JCheckBox but DON'T add them to contentPane yet.
-        // The controller will decide which one to make visible and add.
         list1 = new JList<>();
         completaCheckBox = new JCheckBox("Completa ToDo");
         completaCheckBox.setHorizontalAlignment(SwingConstants.CENTER);
@@ -49,13 +48,9 @@ public class ToDoDetailPage extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        // Pass all potentially displayable components to the controller for initialization.
-        // The controller will determine which one to use and configure.
-        // The controller also needs the 'contentPane' to dynamically add the correct component.
-        controller.initializeGui(list1, completaCheckBox, nomeToDoLabel, contentPane);
+        controller.initializeGui(list1, completaCheckBox, nomeToDoLabel, contentPane,dataScadenza,ultimaModifica, utenteCodiviso);
 
 
-        // Gestione Eventi
         buttonOK.addActionListener(e -> {
             controller.onOkAction(); // Controller will handle the state based on which component was active
             dispose();
@@ -82,7 +77,6 @@ public class ToDoDetailPage extends JDialog {
         setLocationRelativeTo(null);
     }
 
-    // Keep getters if you need to access these components from outside (e.g., for testing)
     public JList<ChecklistItem> getChecklistJList() { return list1; }
     public JCheckBox getCompletaCheckBox() { return completaCheckBox; }
 
