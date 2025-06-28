@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class CreaToDoPageControllerImpl extends ControllerFather implements CreaToDoPageController{
 
     @Override
-    public  void inizializzazione(JSpinner giorno, JSpinner mese, JSpinner anno, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca){
+    public  void inizializzazione(JSpinner giorno, JSpinner mese, JSpinner anno, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca,JLabel cLabel){
         SpinnerNumberModel giornoModel = new SpinnerNumberModel(1, 1, 31, 1);
         giorno.setModel(giornoModel);
         SpinnerNumberModel meseModel = new SpinnerNumberModel(1, 1, 12, 1);
@@ -22,6 +22,7 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         condivisoLabel.setVisible(false);
         nomeUtenteCondiviso.setVisible(false);
         comboBacheca.setVisible(false);
+        cLabel.setVisible(false);
 
         DefaultListModel<ChecklistItem> model = new DefaultListModel<>();
         checkList.setModel(model);
@@ -59,16 +60,18 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
     }
 
     @Override
-    public void updateScreen(JCheckBox condivisoCheckBox, JTextField nomeUtenteCondiviso, JLabel condivisoLabel,JComboBox<Bacheca> comboBacheca) {
+    public void updateScreen(JCheckBox condivisoCheckBox, JTextField nomeUtenteCondiviso, JLabel condivisoLabel,JComboBox<Bacheca> comboBacheca, JLabel cLabel) {
        if (condivisoCheckBox.isSelected()){
            condivisoLabel.setVisible(true);
            nomeUtenteCondiviso.setVisible(true);
            comboBacheca.setVisible(true);
+           cLabel.setVisible(true);
        }
        else{
            condivisoLabel.setVisible(false);
            nomeUtenteCondiviso.setVisible(false);
            comboBacheca.setVisible(false);
+           cLabel.setVisible(false);
        }
     }
 

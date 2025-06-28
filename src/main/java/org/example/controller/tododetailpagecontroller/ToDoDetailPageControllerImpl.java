@@ -42,8 +42,11 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
         this.mainContentPanel = contentPanel;
         ultimaModifica.setVisible(false);
         utenteCodiviso.setVisible(false);
-        if(todo instanceof ToDoCondiviso){
-            ToDoCondiviso tdc = (ToDoCondiviso) todo;
+
+        dataScadenza.setText(todo.getDataScadenza().toString());
+        System.out.println("Classe di todo: " + todo.getClass().getName());
+
+        if(todo instanceof ToDoCondiviso tdc){
             ultimaModifica.setVisible(true);
             utenteCodiviso.setVisible(true);
             ultimaModifica.setText("ultima modifica: " + tdc.getUltimoModificatore());

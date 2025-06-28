@@ -19,8 +19,8 @@ public class ToDoCondiviso extends ToDo {
         return creatore;
     }
 
-    public Utente getUltimoModificatore() {
-        return ultimoModificatore;
+    public String getUltimoModificatore() {
+        return ultimoModificatore.getLogin();
     }
 
     public LocalDate getDataCondivisione() {
