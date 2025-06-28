@@ -44,7 +44,6 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
         utenteCodiviso.setVisible(false);
 
         dataScadenza.setText(todo.getDataScadenza().toString());
-        System.out.println("Classe di todo: " + todo.getClass().getName());
 
         if(todo instanceof ToDoCondiviso tdc){
             ultimaModifica.setVisible(true);
