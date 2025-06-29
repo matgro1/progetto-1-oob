@@ -1,50 +1,36 @@
 package org.example.model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter; // Aggiunto per setId, setTitolo, setDescrizione, setUtenteId
 
+// Nota: Le liste come `todo` non devono più essere mantenute qui
+// Le relazioni verranno gestite tramite i DAO
 public class Bacheca {
-    private String titolo;
+    @Getter @Setter private int id; // Corrisponde a id SERIAL PRIMARY KEY nel DB
+    @Getter @Setter private String titolo;
+    @Getter @Setter private String descrizione;
+    @Getter @Setter private int utenteId; // Chiave esterna per l'Utente proprietario
+
+    // Costruttore per la creazione di nuove Bacheche (prima del salvataggio nel DB)
+    public Bacheca(String titolo, String descrizione, int utenteId) {
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.utenteId = utenteId;
+    }
+
+    // Costruttore per popolare da DB (quando l'ID è già noto)
+    public Bacheca(int id, String titolo, String descrizione, int utenteId) {
+        this.id = id;
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.utenteId = utenteId;
+    }
+
     @Override
     public String toString() {
-        return getNome();
-    }
-    private String descrizione;
-    private ArrayList<ToDo> todo = new ArrayList<>();
-
-    public Bacheca(String t, String desc) {
-        titolo = t;
-        descrizione = desc;
+        return titolo; // Utile per visualizzare nella JList
     }
 
-    public String getNome() {
-        return titolo;
-    }
-
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
-    }
-
-    public void setDescrizione(String descrizione) {
-        this.descrizione = descrizione;
-    }
-
-    public void removeToDo(String nome, LocalDate dataScadenza) {
-        int i = 0;
-        for (ToDo td : todo) {
-            if (td.getId().equals(td.getClass() + "-" + dataScadenza.toString() + "-" + nome.replaceAll("\\s+", "_"))) {
-                todo.remove(i);
-            }
-            i++;
-        }
-    }
-
-
-    public List<ToDo> getToDo() {
-        return todo;
-    }
-    public String getDescrizione(){
-        return descrizione;
-    }
+    // Metodi come `removeToDo()` e `getToDo()` sono stati rimossi.
+    // Per ottenere i ToDo di questa bacheca, userai ToDoDAO.findByBachecaId(this.id).
 }
