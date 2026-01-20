@@ -15,21 +15,16 @@
     </properties>
 
     <dependencies>
-        <!-- Driver PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.7.2</version>
-        </dependency>
+        </dependency><dependency>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>6.4.4.Final</version>
+    </dependency>
 
-        <!-- Hibernate (ORM) -->
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.4.4.Final</version>
-        </dependency>
-
-        <!-- Lombok per ridurre il codice boilerplate -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -37,7 +32,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- JUnit per i test -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -51,7 +45,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Dipendenza Swing/AWT per l'interfaccia grafica -->
         <dependency>
             <groupId>com.formdev</groupId>
             <artifactId>flatlaf</artifactId>
@@ -67,16 +60,13 @@
         <dependency>
             <groupId>com.intellij</groupId>
             <artifactId>forms_rt</artifactId>
-            <version>7.0.3</version> <!-- o la versione più recente che trovi -->
+            <version>7.0.3</version>
             <scope>runtime</scope>
         </dependency>
-
-
     </dependencies>
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -104,10 +94,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
-
-
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -140,7 +126,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Plugin per creare un JAR eseguibile con tutte le dipendenze -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

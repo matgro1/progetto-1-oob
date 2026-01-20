@@ -9,6 +9,10 @@ import java.time.LocalDate;
 
 public class ToDo {
 
+    // Il metodo getId() ora restituisce l'ID numerico generato dal DB
+    // Non più la complessa logica basata su stringhe.
+    // L'override per ToDoCondiviso dovrà considerare l'ID del ToDo padre.
+
     @Getter @Setter private int id; // Corrisponde a id SERIAL PRIMARY KEY nel DB
     @Getter @Setter private String titolo;
     @Getter @Setter private LocalDate dataScadenza;
@@ -35,13 +39,6 @@ public class ToDo {
         this.dataScadenza = dataScadenza;
         this.completato = completato;
         this.bachecaId = bachecaId;
-    }
-
-    // Il metodo getId() ora restituisce l'ID numerico generato dal DB
-    // Non più la complessa logica basata su stringhe.
-    // L'override per ToDoCondiviso dovrà considerare l'ID del ToDo padre.
-    public String getId() {
-        return String.valueOf(this.id);
     }
 
 
