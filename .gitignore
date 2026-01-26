@@ -14,7 +14,7 @@ target/
 .idea/dictionaries/
 .idea/assetWizardSettings.xml
 .settings
-.idea/
+.idea
 .springBeans
 .sts4-cache
 
