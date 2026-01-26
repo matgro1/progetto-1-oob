@@ -19,7 +19,7 @@ public class ModificaBachecaPage extends JDialog {
     private static final ModificaBachecaController controller = new ModificaBachecaControllerImpl();
 
     public ModificaBachecaPage(Bacheca bacheca) {
-        titoloField.setText(bacheca.getNome());
+        titoloField.setText(bacheca.getTitolo());
         descrizioneField.setText(bacheca.getDescrizione());
         setContentPane(contentPane);
         setModal(true);
