@@ -51,12 +51,12 @@ public class BachecaDAOImpl implements BachecaDAO{
     }
 
     @Override
-    public List<Bacheca> findByUtenteId(int utenteId) {
+    public ArrayList<Bacheca> findByUtenteId(int utenteId) {
         String sql = "SELECT * FROM bacheche WHERE utente_id = ?";
         try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
             stmt.setInt(1, utenteId);
             ResultSet rs = stmt.executeQuery();
-            List<Bacheca> bacheche = new ArrayList<>();
+            ArrayList<Bacheca> bacheche = new ArrayList<>();
             while (rs.next()) {
                 Bacheca bacheca = new Bacheca(
                         rs.getInt("id"),

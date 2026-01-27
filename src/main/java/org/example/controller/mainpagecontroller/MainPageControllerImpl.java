@@ -22,7 +22,7 @@ public class MainPageControllerImpl extends ControllerFather implements MainPage
 
     @Override
     public DefaultListModel<Bacheca> creazioneLista() {
-        List<Bacheca> bacheche = utente.getBacheche();
+        getBacheche();
         DefaultListModel<Bacheca> bachecheModel = new DefaultListModel<>();
         for (Bacheca bacheca : bacheche) {
             bachecheModel.addElement(bacheca);

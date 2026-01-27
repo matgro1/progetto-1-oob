@@ -6,6 +6,7 @@ import org.example.model.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UtenteDAOImpl implements UtenteDAO {
     @Override
@@ -24,43 +25,7 @@ public class UtenteDAOImpl implements UtenteDAO {
         }
     }
 
-    @Override
-    public Utente findByUsername(String login) {
-        String sql = "SELECT * FROM utenti WHERE login = ?";
-        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
-            stmt.setString(1, login);
-            var rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Utente(
-                        rs.getInt("id"),
-                        rs.getString("login"),
-                        rs.getString("password")
-                );
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException("errore ricerca utente per login", e);
-        }
-    }
 
-    @Override
-    public Utente findById(int id) {
-       String sql = "SELECT * FROM utenti WHERE id = ?";
-        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            var rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Utente(
-                        rs.getInt("id"),
-                        rs.getString("login"),
-                        rs.getString("password")
-                );
-            }
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException("errore ricerca utente per id", e);
-        }
-    }
 
     @Override
     public void delete(int id) {

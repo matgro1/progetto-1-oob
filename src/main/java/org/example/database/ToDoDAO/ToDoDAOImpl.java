@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ToDoDAOImpl implements ToDoDAO {
@@ -29,12 +30,12 @@ public class ToDoDAOImpl implements ToDoDAO {
     }
 
     @Override
-    public List<ToDo> findByBachecaId(int bachecaId) {
+    public ArrayList<ToDo> findByBachecaId(int bachecaId) {
         String sql = "SELECT * FROM todos WHERE bacheca_id = ?";
         try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
             stmt.setInt(1, bachecaId);
             ResultSet rs = stmt.executeQuery();
-            List<ToDo> todos = new java.util.ArrayList<>();
+            ArrayList<ToDo> todos = new java.util.ArrayList<>();
             while (rs.next()) {
                 ToDo todo = new ToDo(
                                         rs.getInt("id"),

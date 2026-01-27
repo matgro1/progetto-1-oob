@@ -1,5 +1,6 @@
 package org.example.controller.creatodopagecontroller;
 
+import org.example.database.DatabaseConnection;
 import org.example.gui.BachecaMainPage;
 import org.example.model.*;
 import org.example.controller.ControllerFather;
@@ -45,7 +46,6 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
                 checkList.setModel(model);
             }
 
-            // Usa il costruttore con descrizione e todoId (0 perché il ToDo non è ancora creato)
             model.addElement(new ChecklistItem(descrizione, 0));
         }
     }
@@ -84,11 +84,11 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
             }
         }
         if(utenteProvvisorio != null){
-            // TODO: Devi implementare un metodo per recuperare le bacheche dell'utente dal DB
-            // Esempio: List<Bacheca> bacheche = bachecaDAO.findByUtenteId(utenteProvvisorio.getId());
-            // for(Bacheca bachecal : bacheche){
-            //     comboBacheca.addItem(bachecal);
-            // }
+            for (Bacheca b : bacheche) {
+                if (b.getUtenteId() == utenteProvvisorio.getId()) {
+                    comboBacheca.addItem(b);
+                }
+            }
         }
     }
 
@@ -97,78 +97,60 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         int m = (int) mese.getValue();
         int a = (int) anno.getValue();
         LocalDate data = LocalDate.of(a, m, g);
-
-        ToDo nuovoToDo;
-
+        ToDo nuovoToDo = null;
         if (!condivisoCheckBox.isSelected()) {
-            // Usa il costruttore con titolo, dataScadenza e bachecaId
-            nuovoToDo = new ToDo(titoloField.getText(), data, bacheca.getId());
+            nuovoToDo = DatabaseConnection.todoDB.save(
+                    new ToDo(
+                            titoloField.getText(),
+                            data,
+                            bacheca.getId()
+                    )
+            );
         } else {
             Utente utente = null;
             for (Utente u : utenti) {
-                if (u.getLogin().compareTo(nomeUtenteCondiviso.getText()) == 0) {
+                if (u.getLogin().equals(nomeUtenteCondiviso.getText())) {
                     utente = u;
                     break;
                 }
             }
-            if (utente != null) {
-                Bacheca bachecaSelezionata = (Bacheca)comboBacheca.getSelectedItem();
-                if (bachecaSelezionata != null) {
-                    // Usa il costruttore di ToDoCondiviso con i parametri corretti
-                    nuovoToDo = new ToDoCondiviso(
+            if (utente == null) {
+                JOptionPane.showMessageDialog(creaToDoPagePanel, "Nome utente non valido!", "Errore di Condivisione", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            Bacheca bachecaSelezionata = (Bacheca) comboBacheca.getSelectedItem();
+            if (bachecaSelezionata == null) {
+                JOptionPane.showMessageDialog(creaToDoPagePanel, "Seleziona una bacheca valida", "Errore di Condivisione", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            nuovoToDo = DatabaseConnection.todoCondivisoDB.save(
+                    new ToDoCondiviso(
                             titoloField.getText(),
                             data,
                             bachecaSelezionata.getId(),
                             utente.getId(),
                             data
-                    );
+                    )
+            );
+        }
 
-                    // TODO: Salva il ToDo nel DB prima di aggiungere i ChecklistItem
-                    // nuovoToDo = toDoDAO.save(nuovoToDo);
-
-                    DefaultListModel<ChecklistItem> model = (DefaultListModel<ChecklistItem>) checkList.getModel();
-                    if (model != null) {
-                        for (int i = 0; i < model.getSize(); i++) {
-                            ChecklistItem originalItem = model.getElementAt(i);
-                            ChecklistItem copiedItem = new ChecklistItem(originalItem.getDescrizione(), nuovoToDo.getId());
-                            copiedItem.setStato(originalItem.getStato());
-                            // TODO: Salva nel DB con ChecklistItemDAO.save(copiedItem)
-                        }
-                    }
-
-                    // TODO: Aggiorna le liste tramite DAO invece di manipolare direttamente
-                    frame.getContentPane().removeAll();
-                    frame.setContentPane(new BachecaMainPage().getBachecaMainPage());
-                    frame.revalidate();
-                    frame.repaint();
-                    return;
+        if (nuovoToDo != null) {
+            DefaultListModel<ChecklistItem> model = (DefaultListModel<ChecklistItem>) checkList.getModel();
+            if (model != null) {
+                for (int i = 0; i < model.getSize(); i++) {
+                    ChecklistItem originalItem = model.getElementAt(i);
+                    ChecklistItem copiedItem = new ChecklistItem(originalItem.getDescrizione(), nuovoToDo.getId());
+                    copiedItem.setStato(originalItem.getStato());
+                    DatabaseConnection.checklistItemDB.save(copiedItem);
                 }
-                JOptionPane.showMessageDialog(creaToDoPagePanel, "Seleziona una bacheca valida", "Errore di Condivisione", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(creaToDoPagePanel, "Nome utente non valido!", "Errore di Condivisione", JOptionPane.ERROR_MESSAGE);
-                return;
             }
+
+            frame.getContentPane().removeAll();
+            frame.setContentPane(new BachecaMainPage().getBachecaMainPage());
+            frame.revalidate();
+            frame.repaint();
         }
-
-        // TODO: Salva il ToDo nel DB
-        // nuovoToDo = toDoDAO.save(nuovoToDo);
-
-        DefaultListModel<ChecklistItem> model = (DefaultListModel<ChecklistItem>) checkList.getModel();
-        if (model != null) {
-            for (int i = 0; i < model.getSize(); i++) {
-                ChecklistItem originalItem = model.getElementAt(i);
-                ChecklistItem copiedItem = new ChecklistItem(originalItem.getDescrizione(), nuovoToDo.getId());
-                copiedItem.setStato(originalItem.getStato());
-                // TODO: Salva nel DB con ChecklistItemDAO.save(copiedItem)
-            }
-        }
-
-        // TODO: Invece di manipolare direttamente la lista, usa il DAO
-        // toDoDAO.save(nuovoToDo);
-
-        frame.getContentPane().removeAll();
-        frame.setContentPane(new BachecaMainPage().getBachecaMainPage());
-        frame.revalidate();
-        frame.repaint();
     }
+
 }

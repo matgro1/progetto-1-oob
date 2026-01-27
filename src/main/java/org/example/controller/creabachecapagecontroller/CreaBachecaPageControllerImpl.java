@@ -1,8 +1,10 @@
 package org.example.controller.creabachecapagecontroller;
 
 
+import org.example.database.DatabaseConnection;
 import org.example.gui.MainPage;
 import org.example.controller.ControllerFather;
+import org.example.model.Bacheca;
 
 import javax.swing.*;
 
@@ -25,11 +27,12 @@ public class CreaBachecaPageControllerImpl extends ControllerFather implements C
             JOptionPane.showMessageDialog(creaBachecaPagePanel, "titolo non valido!", "Errore di registrazione", JOptionPane.ERROR_MESSAGE);
         }
         else{
-            utente.creaBacheca(inputTitolo,inputDescrizione);
+            DatabaseConnection.bachecaDB.save(new Bacheca(inputTitolo, inputDescrizione, utente.getId()));
             frame.setVisible(true);
             frame.getContentPane().removeAll();
             frame.setContentPane(new MainPage().getMainPage());
             frame.revalidate();
             frame.repaint();
-        }    }
+        }
+    }
 }

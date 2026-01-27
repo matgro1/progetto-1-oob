@@ -1,8 +1,10 @@
 package org.example.controller.bachecamainpagecontroller;
 
+import org.example.database.DatabaseConnection;
 import org.example.gui.*;
 import org.example.model.*;
 import org.example.controller.ControllerFather;
+import org.example.database.ToDoDAO.ToDoDAO;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -37,21 +39,20 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
     }
     @Override
     public void setTitolo(JTextField titolo) {
-        titolo.setText(bacheca.getNome());
+        titolo.setText(bacheca.getTitolo());
         titolo.setEditable(false);
     }
     @Override
     public void defaultListModelCreator(JList<ToDo> complete, JList<ToDo> noComplete,JList<ToDo> expired) {
-        List<ToDo> todos= bacheca.getToDo();
+        if(todos.isEmpty()){
+            getToDos();
+        }
         DefaultListModel<ToDo> toDoListModelComplete = new DefaultListModel<>();
         DefaultListModel<ToDo> toDoListModelNoComplete = new DefaultListModel<>();
         DefaultListModel<ToDo> toDoListModelExpired = new DefaultListModel<>();
         for(ToDo todo: todos){
-            if(!todo.getChecklist().isEmpty()){
-                todo.verificaChecklist();
-            }
 
-            if(todo.getStato()){
+            if(todo.isCompletato()){
                 toDoListModelComplete.addElement(todo);
             }
             else if (todo.getDataScadenza().isBefore(LocalDate.now())){
@@ -71,7 +72,7 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
         dialog.setVisible(true);
 
         if (dialog.isModificaConfermata()) {
-            frame.setTitle("Bacheca: " + bacheca.getNome());
+            frame.setTitle("Bacheca: " + bacheca.getTitolo());
         }
     }
     @Override
