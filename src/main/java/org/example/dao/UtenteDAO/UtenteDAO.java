@@ -29,4 +29,18 @@ public interface UtenteDAO {
             throw new RuntimeException("errore ricerca tutti gli utenti", e);
         }
     }
+    public static String getNameById(int id){
+        String sql = "SELECT login FROM utenti WHERE id = ?";
+        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("login");
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("errore ricerca nome utente per id", e);
+        }
+    }
 }

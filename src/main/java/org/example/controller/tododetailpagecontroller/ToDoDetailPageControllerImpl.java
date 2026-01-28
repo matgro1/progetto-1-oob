@@ -2,6 +2,7 @@ package org.example.controller.tododetailpagecontroller;
 
 import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
+import org.example.dao.UtenteDAO.UtenteDAO;
 import org.example.database.DatabaseConnection;
 import org.example.model.ChecklistItem;
 import org.example.model.ToDo;
@@ -47,8 +48,11 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
         if (todo instanceof ToDoCondiviso tdc) {
             ultimaModifica.setVisible(true);
             utenteCodiviso.setVisible(true);
-            ultimaModifica.setText("Ultima modifica ID: " + tdc.getUltimoModificatoreId());
-            utenteCodiviso.setText("Condiviso da ID: " + tdc.getUtenteCondivisoId());
+            ultimaModifica.setText("Ultima modifica da : " + UtenteDAO.getNameById(tdc.getUltimoModificatoreId()));
+            if( tdc.getUtenteCreatoreId() != SessionManager.getInstance().getCurrentUser().getId())
+                utenteCodiviso.setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCreatoreId()));
+            else
+                utenteCodiviso.setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCondivisoId()));
         }
         nomeToDoLabel.setText(todo.getTitolo());
 

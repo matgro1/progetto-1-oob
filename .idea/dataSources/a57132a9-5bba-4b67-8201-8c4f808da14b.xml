@@ -5005,7 +5005,7 @@ false posixrules
       <AncestorIds>16415</AncestorIds>
       <DetailsLevel>2</DetailsLevel>
       <ObjectId>16430</ObjectId>
-      <StateNumber>821</StateNumber>
+      <StateNumber>862</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -5219,9 +5219,9 @@ false posixrules
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="309" parent="280" name="utente_condiviso_id">
+    <column id="309" parent="280" name="utente_condivisore_id">
       <Position>6</Position>
-      <StateNumber>766</StateNumber>
+      <StateNumber>861</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
@@ -5243,31 +5243,36 @@ false posixrules
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="313" parent="280" name="todos_condivisi_utente_condiviso_id_fkey">
-      <ColNames>utente_condiviso_id</ColNames>
-      <NameSurrogate>1</NameSurrogate>
+    <column id="313" parent="280" name="utente_condiviso_id">
+      <Position>10</Position>
+      <StateNumber>862</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="314" parent="280" name="todos_condivisi_utente_condiviso_id_fkey">
+      <ColNames>utente_condivisore_id</ColNames>
       <ObjectId>16439</ObjectId>
       <StateNumber>766</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>16389</RefTableId>
     </foreign-key>
-    <index id="314" parent="280" name="todos_condivisi_pkey">
+    <index id="315" parent="280" name="todos_condivisi_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16437</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>821</StateNumber>
+      <StateNumber>836</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="315" parent="280" name="todos_condivisi_pkey">
+    <key id="316" parent="280" name="todos_condivisi_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16438</ObjectId>
       <Primary>1</Primary>
       <StateNumber>766</StateNumber>
       <UnderlyingIndexId>16437</UnderlyingIndexId>
     </key>
-    <column id="316" parent="281" name="id">
+    <column id="317" parent="281" name="id">
       <DefaultExpression>nextval(&apos;utenti_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5276,21 +5281,21 @@ false posixrules
       <SequenceId>16388</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="317" parent="281" name="login">
+    <column id="318" parent="281" name="login">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>776</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <column id="318" parent="281" name="password">
+    <column id="319" parent="281" name="password">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>776</StateNumber>
       <StoredType>text|0s</StoredType>
       <TypeId>25</TypeId>
     </column>
-    <index id="319" parent="281" name="utenti_pkey">
+    <index id="320" parent="281" name="utenti_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16396</ObjectId>
@@ -5299,7 +5304,7 @@ false posixrules
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="320" parent="281" name="utenti_login_key">
+    <index id="321" parent="281" name="utenti_login_key">
       <ColNames>login</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24598</ObjectId>
@@ -5310,14 +5315,14 @@ false posixrules
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="321" parent="281" name="utenti_pkey">
+    <key id="322" parent="281" name="utenti_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16397</ObjectId>
       <Primary>1</Primary>
       <StateNumber>763</StateNumber>
       <UnderlyingIndexId>16396</UnderlyingIndexId>
     </key>
-    <key id="322" parent="281" name="utenti_login_key">
+    <key id="323" parent="281" name="utenti_login_key">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24599</ObjectId>
       <StateNumber>776</StateNumber>

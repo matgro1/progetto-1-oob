@@ -15,16 +15,17 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
     @Override
     public ToDoCondiviso save(ToDoCondiviso todoCondiviso) {
         // Aggiungiamo bacheca_creatore_id alla query
-        String sql = "INSERT INTO todos_condivisi (titolo, data_scadenza, bacheca_id, completato, utente_condiviso_id, ultimo_modificatore_id, data_condivisione, bacheca_creatore_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?) returning id";
+        String sql = "INSERT INTO todos_condivisi (titolo, data_scadenza, bacheca_id, completato, utente_condivisore_id, ultimo_modificatore_id, data_condivisione, bacheca_creatore_id, utente_condiviso_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?) returning id";
         try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
             stmt.setString(1, todoCondiviso.getTitolo());
             stmt.setDate(2, java.sql.Date.valueOf(todoCondiviso.getDataScadenza()));
             stmt.setInt(3, todoCondiviso.getBachecaId());
             stmt.setBoolean(4, todoCondiviso.isCompletato());
-            stmt.setInt(5, todoCondiviso.getUtenteCondivisoId());
+            stmt.setInt(5, todoCondiviso.getUtenteCreatoreId());
             stmt.setInt(6, todoCondiviso.getUltimoModificatoreId());
             stmt.setDate(7, java.sql.Date.valueOf(todoCondiviso.getDataCondivisione()));
             stmt.setInt(8, todoCondiviso.getBachecaOriginaleId());
+            stmt.setInt(9, todoCondiviso.getUtenteCondivisoId());
 
             var rs = stmt.executeQuery();
             if (rs.next()) {
@@ -49,7 +50,8 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getDate("data_scadenza").toLocalDate(),
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
-                        rs.getInt("utente_condiviso_id"),
+                        rs.getInt("utente_condivisore_id"),
+                        rs.getInt("utnete_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione").toLocalDate(),
                         rs.getInt("bacheca_creatore_id")
@@ -77,7 +79,8 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getDate("data_scadenza").toLocalDate(),
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
-                        rs.getInt("utente_condiviso_id"),
+                        rs.getInt("utente_condivisore_id"),
+                        rs.getInt("utnete_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione").toLocalDate(),
                         rs.getInt("bacheca_creatore_id")
@@ -104,7 +107,8 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getDate("data_scadenza").toLocalDate(),
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
-                        rs.getInt("utente_condiviso_id"),
+                        rs.getInt("utente_condivisore_id"),
+                        rs.getInt("utnete_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione").toLocalDate(),
                         rs.getInt("bacheca_creatore_id")
@@ -125,7 +129,7 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
             stmt.setDate(2, java.sql.Date.valueOf(todoCondiviso.getDataScadenza()));
             stmt.setInt(3, todoCondiviso.getBachecaId());
             stmt.setBoolean(4, todoCondiviso.isCompletato());
-            stmt.setInt(5, todoCondiviso.getUtenteCondivisoId());
+            stmt.setInt(5, todoCondiviso.getUtenteCreatoreId());
             stmt.setInt(6, todoCondiviso.getUltimoModificatoreId());
             stmt.setDate(7, java.sql.Date.valueOf(todoCondiviso.getDataCondivisione()));
             stmt.setInt(8, todoCondiviso.getId());
@@ -151,7 +155,8 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getDate("data_scadenza") != null ? rs.getDate("data_scadenza").toLocalDate() : null,
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
-                        rs.getInt("utente_condiviso_id"),
+                        rs.getInt("utente_condivisore_id"),
+                        rs.getInt("utnete_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione") != null ? rs.getDate("data_condivisione").toLocalDate() : null,
                         rs.getInt("bacheca_creatore_id")
