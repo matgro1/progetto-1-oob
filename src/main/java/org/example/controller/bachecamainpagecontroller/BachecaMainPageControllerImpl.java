@@ -59,28 +59,49 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
     @Override
     public void defaultListModelCreator(JList<ToDo> complete, JList<ToDo> noComplete, JList<ToDo> expired) {
         Bacheca currentBacheca = SessionManager.getInstance().getCurrentBacheca();
-        List<ToDo> todosLocali = new ArrayList<>();
 
-        if(currentBacheca != null){
-            todosLocali.addAll(DatabaseConnection.todoDB.findByBachecaId(currentBacheca.getId()));
-            todosLocali.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaID(currentBacheca.getId()));
+        ArrayList<ToDo> listaPrincipale = DatabaseConnection.todoDB.findByBachecaId(currentBacheca.getId());
+
+        ArrayList<ToDoCondiviso> listaCondivisi = new ArrayList<>();
+        listaCondivisi.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaID(currentBacheca.getId()));
+        listaCondivisi.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaCreatoreId(currentBacheca.getId()));
+
+        for (ToDoCondiviso condiviso : listaCondivisi) {
+            boolean trovato = false;
+
+            for (int i = 0; i < listaPrincipale.size(); i++) {
+                if (listaPrincipale.get(i).getId() == condiviso.getId()) {
+                    listaPrincipale.set(i, condiviso);
+                    trovato = true;
+                    break;
+                }
+            }
+
+            if (!trovato) {
+                listaPrincipale.add(condiviso);
+            }
         }
 
         DefaultListModel<ToDo> toDoListModelComplete = new DefaultListModel<>();
         DefaultListModel<ToDo> toDoListModelNoComplete = new DefaultListModel<>();
         DefaultListModel<ToDo> toDoListModelExpired = new DefaultListModel<>();
 
-        for(ToDo todo: todosLocali){
-            if(todo.isCompletato()){
+        listaPrincipale.sort((t1, t2) -> {
+            if (t1.getDataScadenza() == null) return 1;
+            if (t2.getDataScadenza() == null) return -1;
+            return t1.getDataScadenza().compareTo(t2.getDataScadenza());
+        });
+
+        for (ToDo todo : listaPrincipale) {
+            if (todo.isCompletato()) {
                 toDoListModelComplete.addElement(todo);
-            }
-            else if (todo.getDataScadenza().isBefore(LocalDate.now())){
+            } else if (todo.getDataScadenza() != null && todo.getDataScadenza().isBefore(LocalDate.now())) {
                 toDoListModelExpired.addElement(todo);
-            }
-            else {
+            } else {
                 toDoListModelNoComplete.addElement(todo);
             }
         }
+
         complete.setModel(toDoListModelComplete);
         noComplete.setModel(toDoListModelNoComplete);
         expired.setModel(toDoListModelExpired);

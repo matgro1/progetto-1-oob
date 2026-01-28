@@ -5,7 +5,9 @@ import org.example.model.ToDoCondiviso;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
@@ -131,6 +133,35 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
         } catch (SQLException e) {
             throw new RuntimeException("errore aggiornamento todo condiviso", e);
         }
+    }
+    public List<ToDoCondiviso> findByBachecaCreatoreId(int bachecaCreatoreId) {
+        String sql = "SELECT * FROM todos_condivisi WHERE bacheca_creatore_id = ?";
+        List<ToDoCondiviso> todosCondivisi = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, bachecaCreatoreId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ToDoCondiviso todoCondiviso = new ToDoCondiviso(
+                        rs.getInt("id"),
+                        rs.getString("titolo"),
+                        rs.getDate("data_scadenza") != null ? rs.getDate("data_scadenza").toLocalDate() : null,
+                        rs.getBoolean("completato"),
+                        rs.getInt("bacheca_id"),
+                        rs.getInt("utente_condiviso_id"),
+                        rs.getInt("ultimo_modificatore_id"),
+                        rs.getDate("data_condivisione") != null ? rs.getDate("data_condivisione").toLocalDate() : null,
+                        rs.getInt("bacheca_creatore_id")
+                );
+                todosCondivisi.add(todoCondiviso);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("errore ricerca todos condivisi per creatore", e);
+        }
+        return todosCondivisi;
     }
 
     @Override
