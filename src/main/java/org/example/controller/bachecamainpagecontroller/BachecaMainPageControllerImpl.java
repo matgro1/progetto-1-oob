@@ -62,12 +62,8 @@ public class BachecaMainPageControllerImpl extends ControllerFather implements B
         List<ToDo> todosLocali = new ArrayList<>();
 
         if(currentBacheca != null){
-            todosLocali = DatabaseConnection.todoDB.findByBachecaId(currentBacheca.getId());
-
+            todosLocali.addAll(DatabaseConnection.todoDB.findByBachecaId(currentBacheca.getId()));
             todosLocali.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaID(currentBacheca.getId()));
-
-            List<ToDoCondiviso> condivisi = DatabaseConnection.todoCondivisoDB.findByBachecaID(currentBacheca.getId());
-            todosLocali.addAll(condivisi);
         }
 
         DefaultListModel<ToDo> toDoListModelComplete = new DefaultListModel<>();

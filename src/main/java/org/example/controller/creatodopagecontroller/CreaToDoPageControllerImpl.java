@@ -140,7 +140,8 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
                             data,
                             bachecaTarget.getId(),
                             currentUser.getId(),
-                            LocalDate.now()
+                            LocalDate.now(),
+                            currentBacheca.getId()
                     )
             );
         }

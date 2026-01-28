@@ -21,5 +21,9 @@ public class Bacheca {
         this.descrizione = descrizione;
         this.utenteId = utenteId;
     }
+    @Override
+    public String toString() {
+        return titolo;
+    }
 
 }
