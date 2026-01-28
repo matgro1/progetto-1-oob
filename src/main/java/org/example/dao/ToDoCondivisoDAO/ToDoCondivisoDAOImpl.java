@@ -51,7 +51,7 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
                         rs.getInt("utente_condivisore_id"),
-                        rs.getInt("utnete_condiviso_id"),
+                        rs.getInt("utente_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione").toLocalDate(),
                         rs.getInt("bacheca_creatore_id")
@@ -80,7 +80,7 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
                         rs.getInt("utente_condivisore_id"),
-                        rs.getInt("utnete_condiviso_id"),
+                        rs.getInt("utente_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione").toLocalDate(),
                         rs.getInt("bacheca_creatore_id")
@@ -108,7 +108,7 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
                         rs.getInt("utente_condivisore_id"),
-                        rs.getInt("utnete_condiviso_id"),
+                        rs.getInt("utente_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione").toLocalDate(),
                         rs.getInt("bacheca_creatore_id")
@@ -156,7 +156,7 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
                         rs.getBoolean("completato"),
                         rs.getInt("bacheca_id"),
                         rs.getInt("utente_condivisore_id"),
-                        rs.getInt("utnete_condiviso_id"),
+                        rs.getInt("utente_condiviso_id"),
                         rs.getInt("ultimo_modificatore_id"),
                         rs.getDate("data_condivisione") != null ? rs.getDate("data_condivisione").toLocalDate() : null,
                         rs.getInt("bacheca_creatore_id")
