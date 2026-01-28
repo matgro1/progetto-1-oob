@@ -1,4 +1,4 @@
-package org.example.database.UtenteDAO;
+package org.example.dao.UtenteDAO;
 import org.example.database.DatabaseConnection;
 import org.example.model.Utente;
 

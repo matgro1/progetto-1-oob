@@ -1,4 +1,4 @@
-package org.example.database.ChecklistitemDAO;
+package org.example.dao.ChecklistitemDAO;
 
 import org.example.database.DatabaseConnection;
 import org.example.model.ChecklistItem;

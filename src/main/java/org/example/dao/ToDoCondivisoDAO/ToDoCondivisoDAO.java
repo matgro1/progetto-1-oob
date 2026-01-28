@@ -1,4 +1,4 @@
-package org.example.database.ToDoCondivisoDAO;
+package org.example.dao.ToDoCondivisoDAO;
 import org.example.model.ToDoCondiviso;
 
 import java.util.List;

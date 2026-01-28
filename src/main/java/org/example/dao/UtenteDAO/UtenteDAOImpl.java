@@ -1,4 +1,4 @@
-package org.example.database.UtenteDAO;
+package org.example.dao.UtenteDAO;
 
 import org.example.database.DatabaseConnection;
 import org.example.model.Utente;
@@ -6,7 +6,6 @@ import org.example.model.Utente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class UtenteDAOImpl implements UtenteDAO {
     @Override

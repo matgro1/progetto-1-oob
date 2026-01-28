@@ -1,4 +1,4 @@
-package org.example.database.BachecaDAO;
+package org.example.dao.BachecaDAO;
 import org.example.model.Bacheca;
 
 import java.util.ArrayList;

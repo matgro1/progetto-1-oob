@@ -1,9 +1,9 @@
 package org.example.database;
-import org.example.database.BachecaDAO.BachecaDAOImpl;
-import org.example.database.ChecklistitemDAO.ChecklistItemDAOImpl;
-import org.example.database.ToDoCondivisoDAO.ToDoCondivisoDAOImpl;
-import org.example.database.ToDoDAO.ToDoDAOImpl;
-import org.example.database.UtenteDAO.UtenteDAOImpl;
+import org.example.dao.BachecaDAO.BachecaDAOImpl;
+import org.example.dao.ChecklistitemDAO.ChecklistItemDAOImpl;
+import org.example.dao.ToDoCondivisoDAO.ToDoCondivisoDAOImpl;
+import org.example.dao.ToDoDAO.ToDoDAOImpl;
+import org.example.dao.UtenteDAO.UtenteDAOImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

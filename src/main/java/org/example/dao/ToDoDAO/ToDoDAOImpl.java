@@ -1,4 +1,4 @@
-package org.example.database.ToDoDAO;
+package org.example.dao.ToDoDAO;
 
 import org.example.database.DatabaseConnection;
 import org.example.model.ToDo;
@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ToDoDAOImpl implements ToDoDAO {
     @Override

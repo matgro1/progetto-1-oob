@@ -1,4 +1,4 @@
-package org.example.database.BachecaDAO;
+package org.example.dao.BachecaDAO;
 
 import org.example.database.DatabaseConnection;
 import org.example.model.Bacheca;
@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class BachecaDAOImpl implements BachecaDAO{
     @Override

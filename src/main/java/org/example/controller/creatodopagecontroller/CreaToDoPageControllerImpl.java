@@ -1,14 +1,18 @@
 package org.example.controller.creatodopagecontroller;
 
+import org.example.controller.ControllerFather;
+import org.example.controller.SessionManager;
 import org.example.database.DatabaseConnection;
+import org.example.dao.UtenteDAO.UtenteDAO;
 import org.example.gui.BachecaMainPage;
 import org.example.model.*;
-import org.example.controller.ControllerFather;
 
 import javax.swing.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CreaToDoPageControllerImpl extends ControllerFather implements CreaToDoPageController{
+public class CreaToDoPageControllerImpl extends ControllerFather implements CreaToDoPageController {
 
     @Override
     public void inizializzazione(JSpinner giorno, JSpinner mese, JSpinner anno, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca, JLabel cLabel){
@@ -20,6 +24,7 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         anno.setModel(annoModel);
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(anno, "#");
         anno.setEditor(editor);
+
         condivisoLabel.setVisible(false);
         nomeUtenteCondiviso.setVisible(false);
         comboBacheca.setVisible(false);
@@ -31,6 +36,7 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
 
     @Override
     public void aggiungiChecklistItem(JList<ChecklistItem> checkList) {
+        JFrame frame = SessionManager.getInstance().getMainFrame();
         String descrizione = JOptionPane.showInputDialog(frame,
                 "Inserisci descrizione dell'attività:",
                 "Aggiungi Checklist Item",
@@ -38,20 +44,19 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
 
         if (descrizione != null && !descrizione.trim().isEmpty()) {
             DefaultListModel<ChecklistItem> model;
-
             if (checkList.getModel() instanceof DefaultListModel) {
                 model = (DefaultListModel<ChecklistItem>) checkList.getModel();
             } else {
                 model = new DefaultListModel<>();
                 checkList.setModel(model);
             }
-
             model.addElement(new ChecklistItem(descrizione, 0));
         }
     }
 
     @Override
     public void returnBachecaMainPage() {
+        JFrame frame = SessionManager.getInstance().getMainFrame();
         frame.getContentPane().removeAll();
         frame.setContentPane(new BachecaMainPage().getBachecaMainPage());
         frame.revalidate();
@@ -60,34 +65,31 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
 
     @Override
     public void updateScreen(JCheckBox condivisoCheckBox, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JComboBox<Bacheca> comboBacheca, JLabel cLabel) {
-        if (condivisoCheckBox.isSelected()){
-            condivisoLabel.setVisible(true);
-            nomeUtenteCondiviso.setVisible(true);
-            comboBacheca.setVisible(true);
-            cLabel.setVisible(true);
-        } else {
-            condivisoLabel.setVisible(false);
-            nomeUtenteCondiviso.setVisible(false);
-            comboBacheca.setVisible(false);
-            cLabel.setVisible(false);
-        }
+        boolean selected = condivisoCheckBox.isSelected();
+        condivisoLabel.setVisible(selected);
+        nomeUtenteCondiviso.setVisible(selected);
+        comboBacheca.setVisible(selected);
+        cLabel.setVisible(selected);
     }
 
     @Override
     public void updateComboBacheca(JComboBox<Bacheca> comboBacheca, JTextField nomeUtenteCondiviso) {
         comboBacheca.removeAllItems();
+
+        ArrayList<Utente> allUsers = UtenteDAO.findAll();
         Utente utenteProvvisorio = null;
-        for(Utente u: utenti){
+
+        for(Utente u: allUsers){
             if(u.getLogin().equals(nomeUtenteCondiviso.getText())){
                 utenteProvvisorio = u;
                 break;
             }
         }
+
         if(utenteProvvisorio != null){
-            for (Bacheca b : bacheche) {
-                if (b.getUtenteId() == utenteProvvisorio.getId()) {
-                    comboBacheca.addItem(b);
-                }
+            List<Bacheca> bachecheUtente = DatabaseConnection.bachecaDB.findByUtenteId(utenteProvvisorio.getId());
+            for (Bacheca b : bachecheUtente) {
+                comboBacheca.addItem(b);
             }
         }
     }
@@ -97,30 +99,38 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         int m = (int) mese.getValue();
         int a = (int) anno.getValue();
         LocalDate data = LocalDate.of(a, m, g);
+
         ToDo nuovoToDo = null;
+        Bacheca currentBacheca = SessionManager.getInstance().getCurrentBacheca();
+
         if (!condivisoCheckBox.isSelected()) {
             nuovoToDo = DatabaseConnection.todoDB.save(
                     new ToDo(
                             titoloField.getText(),
                             data,
-                            bacheca.getId()
+                            currentBacheca.getId()
                     )
             );
         } else {
-            Utente utente = null;
-            for (Utente u : utenti) {
+            Utente currentUser = SessionManager.getInstance().getCurrentUser();
+            ArrayList<Utente> allUsers = UtenteDAO.findAll();
+            Utente utenteTarget = null;
+
+            for (Utente u : allUsers) {
                 if (u.getLogin().equals(nomeUtenteCondiviso.getText())) {
-                    utente = u;
+                    utenteTarget = u;
                     break;
                 }
             }
-            if (utente == null) {
-                JOptionPane.showMessageDialog(creaToDoPagePanel, "Nome utente non valido!", "Errore di Condivisione", JOptionPane.ERROR_MESSAGE);
+
+            if (utenteTarget == null) {
+                JOptionPane.showMessageDialog(creaToDoPagePanel, "Nome utente non valido!", "Errore", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Bacheca bachecaSelezionata = (Bacheca) comboBacheca.getSelectedItem();
-            if (bachecaSelezionata == null) {
-                JOptionPane.showMessageDialog(creaToDoPagePanel, "Seleziona una bacheca valida", "Errore di Condivisione", JOptionPane.ERROR_MESSAGE);
+
+            Bacheca bachecaTarget = (Bacheca) comboBacheca.getSelectedItem();
+            if (bachecaTarget == null) {
+                JOptionPane.showMessageDialog(creaToDoPagePanel, "Seleziona una bacheca valida", "Errore", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -128,9 +138,9 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
                     new ToDoCondiviso(
                             titoloField.getText(),
                             data,
-                            bachecaSelezionata.getId(),
-                            utente.getId(),
-                            data
+                            bachecaTarget.getId(),
+                            currentUser.getId(),
+                            LocalDate.now()
                     )
             );
         }
@@ -140,17 +150,13 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
             if (model != null) {
                 for (int i = 0; i < model.getSize(); i++) {
                     ChecklistItem originalItem = model.getElementAt(i);
-                    ChecklistItem copiedItem = new ChecklistItem(originalItem.getDescrizione(), nuovoToDo.getId());
-                    copiedItem.setStato(originalItem.getStato());
-                    DatabaseConnection.checklistItemDB.save(copiedItem);
+                    ChecklistItem newItem = new ChecklistItem(originalItem.getDescrizione(), nuovoToDo.getId());
+                    newItem.setStato(originalItem.getStato());
+                    DatabaseConnection.checklistItemDB.save(newItem);
                 }
             }
 
-            frame.getContentPane().removeAll();
-            frame.setContentPane(new BachecaMainPage().getBachecaMainPage());
-            frame.revalidate();
-            frame.repaint();
+            returnBachecaMainPage();
         }
     }
-
 }

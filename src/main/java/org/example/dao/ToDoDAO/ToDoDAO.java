@@ -1,4 +1,4 @@
-package org.example.database.ToDoDAO;
+package org.example.dao.ToDoDAO;
 
 import org.example.model.ToDo;
 import java.util.ArrayList;
