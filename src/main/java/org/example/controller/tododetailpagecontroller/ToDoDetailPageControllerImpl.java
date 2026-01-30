@@ -175,4 +175,22 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
     public void onCancelAction() {
         System.out.println("Modifiche annullate.");
     }
+    @Override
+    public void onCancellaAction() {
+        ToDo todo = SessionManager.getInstance().getCurrentToDo();
+
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Sei sicuro di voler eliminare questo ToDo?",
+                "Conferma eliminazione",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (todo instanceof ToDoCondiviso) {
+                DatabaseConnection.todoCondivisoDB.delete(todo.getId());
+            } else {
+                DatabaseConnection.todoDB.delete(todo.getId());
+            }
+            SessionManager.getInstance().setCurrentToDo(null);
+        }
+    }
 }

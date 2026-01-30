@@ -21,4 +21,7 @@ public interface ModificaBachecaController {
      * @param descrizioneModificata the descrizione modificata
      */
     void ok(String titoloModificato, String descrizioneModificata);
+
+
+    boolean cancellaBacheca();
 }

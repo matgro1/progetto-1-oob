@@ -30,4 +30,20 @@ public class ModificaBachecaControllerImpl extends ControllerFather implements M
             DatabaseConnection.bachecaDB.update(bacheca);
         }
     }
+
+    @Override
+    public boolean cancellaBacheca() {
+        Bacheca bacheca = SessionManager.getInstance().getCurrentBacheca();
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Sei sicuro di voler eliminare la bacheca '" + bacheca.getTitolo() + "' e tutti i suoi ToDo?",
+                "Conferma eliminazione",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            DatabaseConnection.bachecaDB.delete(bacheca.getId());
+            SessionManager.getInstance().setCurrentBacheca(null);
+            return true;
+        }
+        return false;
+    }
 }

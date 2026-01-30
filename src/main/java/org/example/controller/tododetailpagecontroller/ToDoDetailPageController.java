@@ -40,4 +40,5 @@ public interface ToDoDetailPageController {
      * On cancel action.
      */
     void onCancelAction();
+    void onCancellaAction();
 }

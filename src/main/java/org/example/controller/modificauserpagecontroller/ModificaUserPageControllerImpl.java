@@ -1,5 +1,6 @@
 package org.example.controller.modificauserpagecontroller;
 
+import org.example.Home;
 import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
 import org.example.database.DatabaseConnection;
@@ -29,6 +30,26 @@ public class ModificaUserPageControllerImpl extends ControllerFather implements 
             u.changeUser(usernameS, passwordS);
 
             DatabaseConnection.utenteDB.update(u);
+        }
+    }
+
+    @Override
+    public void cancellaUtente() {
+        Utente u = SessionManager.getInstance().getCurrentUser();
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Sei sicuro di voler eliminare il tuo account? Questa azione è irreversibile.",
+                "Conferma eliminazione",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            DatabaseConnection.utenteDB.delete(u.getId());
+
+            SessionManager.getInstance().setCurrentUser(null);
+            JFrame frame = SessionManager.getInstance().getMainFrame();
+            frame.getContentPane().removeAll();
+            frame.setContentPane(new Home().getLoginPanel());
+            frame.revalidate();
+            frame.repaint();
         }
     }
 }

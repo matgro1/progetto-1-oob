@@ -21,4 +21,7 @@ public interface ModificaUserPageController {
      * @param password the password
      */
     void modificaUtente(JTextField username, JTextField password);
+
+
+    void cancellaUtente();
 }

@@ -2,12 +2,15 @@ package org.example.dao.BachecaDAO;
 
 import org.example.database.DatabaseConnection;
 import org.example.model.Bacheca;
+import org.example.model.ToDo;
+import org.example.model.ToDoCondiviso;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Bacheca dao.
@@ -90,13 +93,28 @@ public class BachecaDAOImpl implements BachecaDAO{
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM bacheche WHERE id = ?";
-        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("errore cancellazione bacheca", e);
-        }
+        ArrayList<ToDo> todos = DatabaseConnection.todoDB.findByBachecaId(id);
+        List<ToDoCondiviso> sharedTodos = DatabaseConnection.todoCondivisoDB.findByBachecaID(id);
 
+        try {
+            // 1. Cancella tutti i ToDo normali
+            for (ToDo t : todos) {
+                DatabaseConnection.todoDB.delete(t.getId());
+            }
+            // 2. Cancella tutti i ToDo Condivisi
+            for (ToDoCondiviso t : sharedTodos) {
+                DatabaseConnection.todoCondivisoDB.delete(t.getId());
+            }
+
+            // 3. Infine cancella la bacheca
+            String sql = "DELETE FROM bacheche WHERE id = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("errore cancellazione bacheca e contenuti", e);
+        }
     }
 }

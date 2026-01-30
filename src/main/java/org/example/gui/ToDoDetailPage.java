@@ -1,6 +1,7 @@
 package org.example.gui;
 
 import lombok.Getter;
+import org.example.controller.SessionManager;
 import org.example.controller.tododetailpagecontroller.ToDoDetailPageController;
 import org.example.controller.tododetailpagecontroller.ToDoDetailPageControllerImpl;
 import org.example.model.ChecklistItem;
@@ -101,6 +102,12 @@ public class ToDoDetailPage extends JDialog {
             dispose();
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+        cancellaButton.addActionListener(e -> {
+            controller.onCancellaAction();
+            if (SessionManager.getInstance().getCurrentToDo() == null) {
+                dispose();
+            }
+        });
         pack();
         setLocationRelativeTo(null);
     }

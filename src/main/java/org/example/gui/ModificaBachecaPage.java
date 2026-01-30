@@ -1,6 +1,7 @@
 //odio i dialog
 package org.example.gui;
 import lombok.Getter;
+import org.example.controller.SessionManager;
 import org.example.controller.modificabachecacontroller.ModificaBachecaController;
 import org.example.controller.modificabachecacontroller.ModificaBachecaControllerImpl;
 import org.example.model.Bacheca;
@@ -42,6 +43,18 @@ public class ModificaBachecaPage extends JDialog {
         buttonCancel.addActionListener(e -> onCancel());
         pack();
         setLocationRelativeTo(null);
+        cancella.addActionListener(e -> {
+            boolean cancellata = controller.cancellaBacheca();
+            if (cancellata) {
+                dispose();
+
+                JFrame frame = SessionManager.getInstance().getMainFrame();
+                frame.getContentPane().removeAll();
+                frame.setContentPane(new MainPage().getMainPage());
+                frame.revalidate();
+                frame.repaint();
+            }
+        });
     }
     private void onOK() {
         controller.ok(titoloModificato,descrizioneModificata);

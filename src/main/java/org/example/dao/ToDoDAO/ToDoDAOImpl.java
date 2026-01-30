@@ -80,12 +80,20 @@ public class ToDoDAOImpl implements ToDoDAO {
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM todos WHERE id = ?";
-        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
+        String sqlChecklist = "DELETE FROM checklist_items WHERE todo_id = ?";
+        String sqlToDo = "DELETE FROM todos WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(sqlChecklist)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            }
+            try (PreparedStatement stmt = conn.prepareStatement(sqlToDo)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("errore eliminazione todo", e);
+            throw new RuntimeException("errore eliminazione todo e checklist", e);
         }
     }
 

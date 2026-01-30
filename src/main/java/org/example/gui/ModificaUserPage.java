@@ -31,16 +31,19 @@ public class ModificaUserPage extends JDialog {
 
         buttonCancel.addActionListener(e->onCancel());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 onCancel();
             }
-        });//
+        });
 
         contentPane.registerKeyboardAction(e->onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        cancella.addActionListener(e -> {
+            controller.cancellaUtente();
+            dispose();
+        });
     }
 
     private void onOK() {
@@ -51,4 +54,5 @@ public class ModificaUserPage extends JDialog {
     private void onCancel() {
         dispose();
     }
+
 }

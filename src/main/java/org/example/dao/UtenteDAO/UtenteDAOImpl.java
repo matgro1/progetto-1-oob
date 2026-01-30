@@ -1,11 +1,13 @@
 package org.example.dao.UtenteDAO;
 
 import org.example.database.DatabaseConnection;
+import org.example.model.Bacheca;
 import org.example.model.Utente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * The type Utente dao.
@@ -31,12 +33,21 @@ public class UtenteDAOImpl implements UtenteDAO {
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM utenti WHERE id = ?";
-        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("errore cancellazione utente", e);
+        List<Bacheca> bacheche = DatabaseConnection.bachecaDB.findByUtenteId(id);
+
+        try {
+            for (Bacheca b : bacheche) {
+                DatabaseConnection.bachecaDB.delete(b.getId());
+            }
+
+            String sql = "DELETE FROM utenti WHERE id = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("errore cancellazione utente e dati associati", e);
         }
     }
 
