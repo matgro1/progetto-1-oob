@@ -76,7 +76,8 @@ public class ToDoDetailPage extends JDialog {
                 contentPane,
                 dataScadenza,
                 ultimaModifica,
-                utenteCodiviso
+                utenteCodiviso,
+                cancellaButton
         );
 
         buttonOK.addActionListener(e -> {

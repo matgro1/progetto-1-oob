@@ -10,6 +10,7 @@ import org.example.model.ToDoCondiviso;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -33,11 +34,43 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
     }
 
     @Override
-    public void initializeGui(JList<ChecklistItem> checklistJList, JCheckBox completaCheckBox, JLabel nomeToDoLabel, JPanel contentPanel, JLabel dataScadenza, JLabel ultimaModifica, JLabel utenteCodiviso) {
+    public void initializeGui(JList<ChecklistItem> checklistJList,
+                              JCheckBox completaCheckBox,
+                              JLabel nomeToDoLabel,
+                              JPanel contentPanel,
+                              JLabel dataScadenza,
+                              JLabel ultimaModifica,
+                              JLabel utenteCodiviso,
+                              JButton cancellaButton) {
+
         this.currentCompletaCheckBox = completaCheckBox;
 
         ToDo todo = SessionManager.getInstance().getCurrentToDo();
 
+        for (ActionListener al : cancellaButton.getActionListeners()) {
+            cancellaButton.removeActionListener(al);
+        }
+
+        cancellaButton.addActionListener(e -> {
+            int scelta = JOptionPane.showConfirmDialog(contentPanel,
+                    "Eliminare definitivamente questo ToDo?",
+                    "Conferma eliminazione", JOptionPane.YES_NO_OPTION);
+
+            if (scelta == JOptionPane.YES_OPTION) {
+                if (todo instanceof ToDoCondiviso) {
+                    DatabaseConnection.todoCondivisoDB.delete(todo.getId());
+                } else {
+                    DatabaseConnection.todoDB.delete(todo.getId());
+                }
+
+                SessionManager.getInstance().setCurrentToDo(null);
+
+                Window window = SwingUtilities.getWindowAncestor(cancellaButton);
+                if (window != null) {
+                    window.dispose();
+                }
+            }
+        });
         ultimaModifica.setVisible(false);
         utenteCodiviso.setVisible(false);
 
@@ -51,7 +84,7 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
             ultimaModifica.setVisible(true);
             utenteCodiviso.setVisible(true);
             ultimaModifica.setText("Ultima modifica da : " + UtenteDAO.getNameById(tdc.getUltimoModificatoreId()));
-            if( tdc.getUtenteCreatoreId() != SessionManager.getInstance().getCurrentUser().getId())
+            if (tdc.getUtenteCreatoreId() != SessionManager.getInstance().getCurrentUser().getId())
                 utenteCodiviso.setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCreatoreId()));
             else
                 utenteCodiviso.setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCondivisoId()));

@@ -21,7 +21,14 @@ public interface ToDoDetailPageController {
      * @param ultimaModifica   the ultima modifica
      * @param utenteCodiviso   the utente codiviso
      */
-    void initializeGui(JList<ChecklistItem> checklistJList, JCheckBox completaCheckBox, JLabel nomeToDoLabel, JPanel contentPanel,JLabel dataScadenza,JLabel ultimaModifica,JLabel utenteCodiviso);
+    void initializeGui(JList<ChecklistItem> checklistJList,
+                       JCheckBox completaCheckBox,
+                       JLabel nomeToDoLabel,
+                       JPanel contentPanel,
+                       JLabel dataScadenza,
+                       JLabel ultimaModifica,
+                       JLabel utenteCodiviso,
+                       JButton cancellaButton);
 
     /**
      * Toggle checklist item action.
