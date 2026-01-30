@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * The type Bacheca dao.
+ */
 public class BachecaDAOImpl implements BachecaDAO{
     @Override
     public Bacheca save(Bacheca bacheca) {

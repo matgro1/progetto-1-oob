@@ -12,6 +12,9 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+/**
+ * The type Home controller.
+ */
 public class HomeControllerImpl extends ControllerFather implements HomeController {
     @Override
     public void inizializzazione() {

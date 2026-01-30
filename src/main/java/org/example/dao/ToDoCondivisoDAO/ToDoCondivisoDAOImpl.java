@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type To do condiviso dao.
+ */
 public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
 
     @Override
@@ -138,6 +141,13 @@ public class ToDoCondivisoDAOImpl implements ToDoCondivisoDAO{
             throw new RuntimeException("errore aggiornamento todo condiviso", e);
         }
     }
+
+    /**
+     * Find by bacheca creatore id list.
+     *
+     * @param bachecaCreatoreId the bacheca creatore id
+     * @return the list
+     */
     public List<ToDoCondiviso> findByBachecaCreatoreId(int bachecaCreatoreId) {
         String sql = "SELECT * FROM todos_condivisi WHERE bacheca_creatore_id = ?";
         List<ToDoCondiviso> todosCondivisi = new ArrayList<>();

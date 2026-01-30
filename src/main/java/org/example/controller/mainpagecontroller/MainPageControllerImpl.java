@@ -14,6 +14,9 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.util.List;
 
+/**
+ * The type Main page controller.
+ */
 public class MainPageControllerImpl extends ControllerFather implements MainPageController {
 
     @Override

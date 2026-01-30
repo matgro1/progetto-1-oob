@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
+/**
+ * The type To do.
+ */
 public class ToDo {
 
 
@@ -15,7 +18,13 @@ public class ToDo {
     @Getter @Setter private int bachecaId;
 
 
-
+    /**
+     * Instantiates a new To do.
+     *
+     * @param titolo       the titolo
+     * @param dataScadenza the data scadenza
+     * @param bachecaId    the bacheca id
+     */
     public ToDo(String titolo, LocalDate dataScadenza, int bachecaId) {
         this.titolo = titolo;
         this.dataScadenza = dataScadenza;
@@ -23,6 +32,15 @@ public class ToDo {
         this.bachecaId = bachecaId;
     }
 
+    /**
+     * Instantiates a new To do.
+     *
+     * @param id           the id
+     * @param titolo       the titolo
+     * @param dataScadenza the data scadenza
+     * @param completato   the completato
+     * @param bachecaId    the bacheca id
+     */
     public ToDo(int id, String titolo, LocalDate dataScadenza, boolean completato, int bachecaId) {
         this.id = id;
         this.titolo = titolo;

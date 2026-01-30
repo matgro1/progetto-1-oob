@@ -7,11 +7,38 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * The interface Utente dao.
+ */
 public interface UtenteDAO {
+    /**
+     * Save utente.
+     *
+     * @param utente the utente
+     * @return the utente
+     */
     Utente save(Utente utente);
+
+    /**
+     * Update.
+     *
+     * @param utente the utente
+     */
     void update(Utente utente);
+
+    /**
+     * Delete.
+     *
+     * @param id the id
+     */
     void delete(int id);
-    public static ArrayList<Utente> findAll(){
+
+    /**
+     * Find all array list.
+     *
+     * @return the array list
+     */
+    static ArrayList<Utente> findAll(){
         String sql = "SELECT * FROM utenti";
         try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();
@@ -29,7 +56,14 @@ public interface UtenteDAO {
             throw new RuntimeException("errore ricerca tutti gli utenti", e);
         }
     }
-    public static String getNameById(int id){
+
+    /**
+     * Get name by id string.
+     *
+     * @param id the id
+     * @return the string
+     */
+    static String getNameById(int id){
         String sql = "SELECT login FROM utenti WHERE id = ?";
         try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
             stmt.setInt(1, id);

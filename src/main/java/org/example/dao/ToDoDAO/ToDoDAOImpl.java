@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * The type To do dao.
+ */
 public class ToDoDAOImpl implements ToDoDAO {
     @Override
     public ToDo save(ToDo todo) {

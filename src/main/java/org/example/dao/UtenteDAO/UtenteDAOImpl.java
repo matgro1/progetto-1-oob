@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * The type Utente dao.
+ */
 public class UtenteDAOImpl implements UtenteDAO {
     @Override
     public Utente save(Utente utente) {

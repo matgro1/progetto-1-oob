@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * The type Checklist item dao.
+ */
 public class ChecklistItemDAOImpl implements ChecklistItemDAO {
     public ChecklistItem save(ChecklistItem item) {
         String sql = "INSERT INTO checklist_items (stato, todo_id, descrizione) VALUES (?, ?, ?) RETURNING id";

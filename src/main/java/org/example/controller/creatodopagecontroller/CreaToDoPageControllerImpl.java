@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Crea to do page controller.
+ */
 public class CreaToDoPageControllerImpl extends ControllerFather implements CreaToDoPageController {
 
     @Override
@@ -100,7 +103,7 @@ public class CreaToDoPageControllerImpl extends ControllerFather implements Crea
         int a = (int) anno.getValue();
         LocalDate data = LocalDate.of(a, m, g);
 
-        ToDo nuovoToDo = null;
+        ToDo nuovoToDo;
         Bacheca currentBacheca = SessionManager.getInstance().getCurrentBacheca();
 
         if (!condivisoCheckBox.isSelected()) {

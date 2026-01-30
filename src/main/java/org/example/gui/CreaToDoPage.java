@@ -8,6 +8,9 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * The type Crea to do page.
+ */
 public class CreaToDoPage{
     private JPanel creaToDoPagePanel;
     private JTextField titoloField;
@@ -24,7 +27,14 @@ public class CreaToDoPage{
     private JComboBox<Bacheca> comboBox1;
     private JLabel cLabel;
 
+    /**
+     * The Controller.
+     */
     CreaToDoPageController controller= new CreaToDoPageControllerImpl();
+
+    /**
+     * Instantiates a new Crea to do page.
+     */
     public CreaToDoPage() {
         controller.inizializzazione(giorno,mese,anno,nomeUtenteCondiviso,condivisoLabel,checkList,comboBox1,cLabel);
 
@@ -47,6 +57,11 @@ public class CreaToDoPage{
         });
     }
 
+    /**
+     * Gets crea to do page.
+     *
+     * @return the crea to do page
+     */
     public JPanel getCreaToDoPage() {
         return creaToDoPagePanel;
     }

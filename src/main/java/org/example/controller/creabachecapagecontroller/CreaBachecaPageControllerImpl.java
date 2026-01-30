@@ -9,6 +9,9 @@ import org.example.model.Utente;
 
 import javax.swing.*;
 
+/**
+ * The type Crea bacheca page controller.
+ */
 public class CreaBachecaPageControllerImpl extends ControllerFather implements CreaBachecaPageController {
     @Override
     public void returnMainPage() {

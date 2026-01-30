@@ -8,6 +8,9 @@ import org.example.model.Utente;
 
 import javax.swing.*;
 
+/**
+ * The type Session manager.
+ */
 public class SessionManager {
     private static SessionManager instance;
 
@@ -25,6 +28,11 @@ public class SessionManager {
 
     private SessionManager() {}
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static SessionManager getInstance() {
         if (instance == null) {
             instance = new SessionManager();

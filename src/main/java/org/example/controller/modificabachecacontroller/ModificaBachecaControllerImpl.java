@@ -7,6 +7,9 @@ import org.example.model.Bacheca;
 
 import javax.swing.*;
 
+/**
+ * The type Modifica bacheca controller.
+ */
 public class ModificaBachecaControllerImpl extends ControllerFather implements ModificaBachecaController {
 
     @Override

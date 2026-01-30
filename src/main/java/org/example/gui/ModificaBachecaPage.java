@@ -6,6 +6,10 @@ import org.example.controller.modificabachecacontroller.ModificaBachecaControlle
 import org.example.model.Bacheca;
 
 import javax.swing.*;
+
+/**
+ * The type Modifica bacheca page.
+ */
 public class ModificaBachecaPage extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -18,6 +22,11 @@ public class ModificaBachecaPage extends JDialog {
     private boolean modificaConfermata = false;
     private static final ModificaBachecaController controller = new ModificaBachecaControllerImpl();
 
+    /**
+     * Instantiates a new Modifica bacheca page.
+     *
+     * @param bacheca the bacheca
+     */
     public ModificaBachecaPage(Bacheca bacheca) {
         titoloField.setText(bacheca.getTitolo());
         descrizioneField.setText(bacheca.getDescrizione());

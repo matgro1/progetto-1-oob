@@ -7,6 +7,9 @@ import org.example.model.Utente;
 
 import javax.swing.*;
 
+/**
+ * The type Modifica user page controller.
+ */
 public class ModificaUserPageControllerImpl extends ControllerFather implements ModificaUserPageController {
     @Override
     public void inizializazione(JTextField username, JTextField password) {

@@ -9,6 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * The type To do detail page.
+ */
 public class ToDoDetailPage extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -23,6 +26,9 @@ public class ToDoDetailPage extends JDialog {
     private JLabel utenteCodiviso;
     private final ToDoDetailPageController controller;
 
+    /**
+     * Instantiates a new To do detail page.
+     */
     public ToDoDetailPage() {
         super();
         this.controller = new ToDoDetailPageControllerImpl();

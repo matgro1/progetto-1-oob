@@ -10,8 +10,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * The type Bacheca main page controller.
+ */
 public class BachecaMainPageControllerImpl extends ControllerFather implements BachecaMainPageController {
     private JList<ToDo> completeList;
     private JList<ToDo> noCompleteList;

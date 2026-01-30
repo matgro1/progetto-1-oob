@@ -5,6 +5,9 @@ import org.example.controller.mainpagecontroller.MainPageControllerImpl;
 import org.example.model.Bacheca;
 
 
+/**
+ * The type Main page.
+ */
 public class MainPage {
 
     private JPanel mainPagePanel;
@@ -12,7 +15,14 @@ public class MainPage {
     private JButton logoutButton;
     private JButton creaBachecaButton;
     private JButton modificaUtenteButton;
+    /**
+     * The Controller.
+     */
     MainPageControllerImpl controller= new MainPageControllerImpl();
+
+    /**
+     * Instantiates a new Main page.
+     */
     public MainPage(){
 
 
@@ -25,6 +35,12 @@ public class MainPage {
         bachecheList.addListSelectionListener(e->controller.goToBachecaMainPage(e, bachecheList.getSelectedValue()));
 
     }
+
+    /**
+     * Gets main page.
+     *
+     * @return the main page
+     */
     public JPanel getMainPage() {
         return mainPagePanel;
     }

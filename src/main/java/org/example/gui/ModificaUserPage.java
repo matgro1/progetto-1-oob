@@ -6,6 +6,9 @@ import org.example.controller.modificauserpagecontroller.ModificaUserPageControl
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * The type Modifica user page.
+ */
 public class ModificaUserPage extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
@@ -13,6 +16,10 @@ public class ModificaUserPage extends JDialog {
     private JTextField username;
     private JTextField password;
     private  static final ModificaUserPageController controller = new ModificaUserPageControllerImpl();
+
+    /**
+     * Instantiates a new Modifica user page.
+     */
     public ModificaUserPage() {
         setContentPane(contentPane);
         setModal(true);

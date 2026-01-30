@@ -4,6 +4,10 @@ import org.example.controller.bachecamainpagecontroller.BachecaMainPageControlle
 import org.example.model.ToDo;
 
 import javax.swing.*;
+
+/**
+ * The type Bacheca main page.
+ */
 //credo finito
 // fo sho
 //hell naw
@@ -19,6 +23,9 @@ public class BachecaMainPage {
     private JList<ToDo> expired;
     private final BachecaMainPageController controller= new BachecaMainPageControllerImpl();
 
+    /**
+     * Instantiates a new Bacheca main page.
+     */
     public BachecaMainPage(){
         controller.setDescrizione(descrizione);
         controller.setTitolo(titolo);
@@ -46,6 +53,12 @@ public class BachecaMainPage {
             }
         });
     }
+
+    /**
+     * Get bacheca main page j panel.
+     *
+     * @return the j panel
+     */
     public JPanel getBachecaMainPage(){
         return bachecaMainPagePanel;
     }

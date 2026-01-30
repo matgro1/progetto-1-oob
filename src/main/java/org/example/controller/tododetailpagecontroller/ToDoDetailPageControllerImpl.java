@@ -14,13 +14,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * The type To do detail page controller.
+ */
 public class ToDoDetailPageControllerImpl extends ControllerFather implements ToDoDetailPageController {
 
-    private DefaultListModel<ChecklistItem> listModel;
-    private JList<ChecklistItem> currentChecklistJList;
+    final private DefaultListModel<ChecklistItem> listModel;
     private JCheckBox currentCompletaCheckBox;
-    private JPanel mainContentPanel;
 
+    /**
+     * Instantiates a new To do detail page controller.
+     */
     public ToDoDetailPageControllerImpl() {
         if (SessionManager.getInstance().getCurrentToDo() == null) {
             throw new IllegalStateException("ToDo non impostato nella Sessione prima di creare ToDoDetailPageControllerImpl.");
@@ -30,9 +34,7 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
 
     @Override
     public void initializeGui(JList<ChecklistItem> checklistJList, JCheckBox completaCheckBox, JLabel nomeToDoLabel, JPanel contentPanel, JLabel dataScadenza, JLabel ultimaModifica, JLabel utenteCodiviso) {
-        this.currentChecklistJList = checklistJList;
         this.currentCompletaCheckBox = completaCheckBox;
-        this.mainContentPanel = contentPanel;
 
         ToDo todo = SessionManager.getInstance().getCurrentToDo();
 
@@ -58,9 +60,9 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
 
         List<ChecklistItem> checklist = DatabaseConnection.checklistItemDB.findByToDoId(todo.getId());
 
-        Component centerComponent = ((BorderLayout) mainContentPanel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
+        Component centerComponent = ((BorderLayout) contentPanel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
         if (centerComponent != null) {
-            mainContentPanel.remove(centerComponent);
+            contentPanel.remove(centerComponent);
         }
 
         if (checklist != null && !checklist.isEmpty()) {
@@ -68,9 +70,9 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
             for (ChecklistItem item : checklist) {
                 listModel.addElement(item);
             }
-            currentChecklistJList.setModel(listModel);
+            checklistJList.setModel(listModel);
 
-            currentChecklistJList.setCellRenderer(new ListCellRenderer<ChecklistItem>() {
+            checklistJList.setCellRenderer(new ListCellRenderer<ChecklistItem>() {
                 private final JPanel panel = new JPanel(new BorderLayout());
                 private final JCheckBox checkBox = new JCheckBox();
 
@@ -105,7 +107,7 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
                 }
             });
 
-            currentChecklistJList.addMouseListener(new MouseAdapter() {
+            checklistJList.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     JList<ChecklistItem> sourceList = (JList<ChecklistItem>) e.getSource();
@@ -116,7 +118,7 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
                 }
             });
 
-            mainContentPanel.add(new JScrollPane(currentChecklistJList), BorderLayout.CENTER);
+            contentPanel.add(new JScrollPane(checklistJList), BorderLayout.CENTER);
 
         } else {
             currentCompletaCheckBox.setSelected(todo.isCompletato());
@@ -124,11 +126,11 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
             currentCompletaCheckBox.addActionListener(e -> {
                 todo.setCompletato(currentCompletaCheckBox.isSelected());
             });
-            mainContentPanel.add(currentCompletaCheckBox, BorderLayout.CENTER);
+            contentPanel.add(currentCompletaCheckBox, BorderLayout.CENTER);
         }
 
-        mainContentPanel.revalidate();
-        mainContentPanel.repaint();
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     @Override
