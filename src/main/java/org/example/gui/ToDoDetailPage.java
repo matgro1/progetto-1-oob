@@ -64,6 +64,7 @@ public class ToDoDetailPage extends JDialog {
         buttonPanel.add(buttonOK);
         buttonPanel.add(buttonCancel);
         contentPane.add(buttonPanel, BorderLayout.SOUTH);
+        buttonPanel.add(cancellaButton);
 
         setContentPane(contentPane);
         setModal(true);

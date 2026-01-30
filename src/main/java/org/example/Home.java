@@ -5,6 +5,9 @@ import org.example.controller.homecontroller.HomeControllerImpl;
 
 import javax.swing.*;
 
+
+import static java.util.logging.Level.*;
+
 /**
  * The type Home.
  */
@@ -24,6 +27,16 @@ public class Home {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            java.util.logging.Logger.getLogger(Home.class.getName()).log(SEVERE, null, e);
+        }
         controller.inizializzazione();
     }
 

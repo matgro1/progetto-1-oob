@@ -51,26 +51,7 @@ public class ToDoDetailPageControllerImpl extends ControllerFather implements To
             cancellaButton.removeActionListener(al);
         }
 
-        cancellaButton.addActionListener(e -> {
-            int scelta = JOptionPane.showConfirmDialog(contentPanel,
-                    "Eliminare definitivamente questo ToDo?",
-                    "Conferma eliminazione", JOptionPane.YES_NO_OPTION);
 
-            if (scelta == JOptionPane.YES_OPTION) {
-                if (todo instanceof ToDoCondiviso) {
-                    DatabaseConnection.todoCondivisoDB.delete(todo.getId());
-                } else {
-                    DatabaseConnection.todoDB.delete(todo.getId());
-                }
-
-                SessionManager.getInstance().setCurrentToDo(null);
-
-                Window window = SwingUtilities.getWindowAncestor(cancellaButton);
-                if (window != null) {
-                    window.dispose();
-                }
-            }
-        });
         ultimaModifica.setVisible(false);
         utenteCodiviso.setVisible(false);
 
