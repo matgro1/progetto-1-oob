@@ -24,6 +24,7 @@ public class ToDoDetailPage extends JDialog {
     private JLabel dataScadenza;
     private JLabel ultimaModifica;
     private JLabel utenteCodiviso;
+    private JButton cancellaButton;
     private final ToDoDetailPageController controller;
 
     /**

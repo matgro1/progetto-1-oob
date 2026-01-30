@@ -16,6 +16,7 @@ public class ModificaBachecaPage extends JDialog {
     private JButton buttonCancel;
     private JTextField titoloField;
     private JTextField descrizioneField;
+    private JButton cancella;
     private String titoloModificato;
     private String descrizioneModificata;
     @Getter

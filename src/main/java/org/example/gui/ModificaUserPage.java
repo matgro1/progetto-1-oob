@@ -15,6 +15,7 @@ public class ModificaUserPage extends JDialog {
     private JButton buttonCancel;
     private JTextField username;
     private JTextField password;
+    private JButton cancella;
     private  static final ModificaUserPageController controller = new ModificaUserPageControllerImpl();
 
     /**
