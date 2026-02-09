@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * The type To do detail page controller.
  */
-public class ToDoDetailPageControllerImpl extends ControllerFather implements ToDoDetailPageController {
+public class ToDoDetailPageControllerImpl implements ToDoDetailPageController {
 
     final private DefaultListModel<ChecklistItem> listModel;
     private JCheckBox currentCompletaCheckBox;

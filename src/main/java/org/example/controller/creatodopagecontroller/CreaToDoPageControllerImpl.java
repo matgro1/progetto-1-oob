@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * The type Crea to do page controller.
  */
-public class CreaToDoPageControllerImpl extends ControllerFather implements CreaToDoPageController {
+public class CreaToDoPageControllerImpl  implements CreaToDoPageController {
 
     @Override
     public void inizializzazione(JSpinner giorno, JSpinner mese, JSpinner anno, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca, JLabel cLabel){

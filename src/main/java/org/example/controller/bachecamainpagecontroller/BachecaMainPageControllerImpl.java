@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * The type Bacheca main page controller.
  */
-public class BachecaMainPageControllerImpl extends ControllerFather implements BachecaMainPageController {
+public class BachecaMainPageControllerImpl  implements BachecaMainPageController {
     private JList<ToDo> completeList;
     private JList<ToDo> noCompleteList;
     private JList<ToDo> expiredList;

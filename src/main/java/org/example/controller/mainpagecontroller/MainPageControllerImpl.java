@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * The type Main page controller.
  */
-public class MainPageControllerImpl extends ControllerFather implements MainPageController {
+public class MainPageControllerImpl  implements MainPageController {
 
     @Override
     public void returnHome() {

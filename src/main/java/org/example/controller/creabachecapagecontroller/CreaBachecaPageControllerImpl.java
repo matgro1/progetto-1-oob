@@ -12,7 +12,7 @@ import javax.swing.*;
 /**
  * The type Crea bacheca page controller.
  */
-public class CreaBachecaPageControllerImpl extends ControllerFather implements CreaBachecaPageController {
+public class CreaBachecaPageControllerImpl implements CreaBachecaPageController {
     @Override
     public void returnMainPage() {
         JFrame frame = SessionManager.getInstance().getMainFrame();

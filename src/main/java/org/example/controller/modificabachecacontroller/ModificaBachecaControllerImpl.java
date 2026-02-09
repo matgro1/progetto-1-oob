@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * The type Modifica bacheca controller.
  */
-public class ModificaBachecaControllerImpl extends ControllerFather implements ModificaBachecaController {
+public class ModificaBachecaControllerImpl  implements ModificaBachecaController {
 
     @Override
     public void inizializzazione(JTextField titoloField, JTextField descrizioneField) {

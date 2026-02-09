@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * The type Home controller.
  */
-public class HomeControllerImpl extends ControllerFather implements HomeController {
+public class HomeControllerImpl  implements HomeController {
     @Override
     public void inizializzazione() {
         JFrame frame = new JFrame("Progetto ToDo List");

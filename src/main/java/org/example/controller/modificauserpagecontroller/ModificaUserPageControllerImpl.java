@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  * The type Modifica user page controller.
  */
-public class ModificaUserPageControllerImpl extends ControllerFather implements ModificaUserPageController {
+public class ModificaUserPageControllerImpl implements ModificaUserPageController {
     @Override
     public void inizializazione(JTextField username, JTextField password) {
         Utente u = SessionManager.getInstance().getCurrentUser();
