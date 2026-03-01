@@ -1,6 +1,5 @@
 package org.example.controller.bachecamainpagecontroller;
 
-import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
 import org.example.database.DatabaseConnection;
 import org.example.gui.*;
@@ -10,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Bacheca main page controller.
@@ -61,53 +61,78 @@ public class BachecaMainPageControllerImpl  implements BachecaMainPageController
     @Override
     public void defaultListModelCreator(JList<ToDo> complete, JList<ToDo> noComplete, JList<ToDo> expired) {
         Bacheca currentBacheca = SessionManager.getInstance().getCurrentBacheca();
+        int bachecaId = currentBacheca.getId();
 
-        ArrayList<ToDo> listaPrincipale = DatabaseConnection.todoDB.findByBachecaId(currentBacheca.getId());
+        ArrayList<ToDo> listaTotale = DatabaseConnection.todoDB.findByBachecaId(bachecaId);
+        ArrayList<ToDoCondiviso> listaCondivisi = recuperaCondivisi(bachecaId);
 
-        ArrayList<ToDoCondiviso> listaCondivisi = new ArrayList<>();
-        listaCondivisi.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaID(currentBacheca.getId()));
-        listaCondivisi.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaCreatoreId(currentBacheca.getId()));
+        unisciListe(listaTotale, listaCondivisi);
 
-        for (ToDoCondiviso condiviso : listaCondivisi) {
-            boolean trovato = false;
+        ordinaLista(listaTotale);
 
-            for (int i = 0; i < listaPrincipale.size(); i++) {
-                if (listaPrincipale.get(i).getId() == condiviso.getId()) {
-                    listaPrincipale.set(i, condiviso);
-                    trovato = true;
-                    break;
-                }
-            }
+        DefaultListModel<ToDo> modelComplete = new DefaultListModel<>();
+        DefaultListModel<ToDo> modelNoComplete = new DefaultListModel<>();
+        DefaultListModel<ToDo> modelExpired = new DefaultListModel<>();
 
-            if (!trovato) {
-                listaPrincipale.add(condiviso);
-            }
+        for (ToDo todo : listaTotale) {
+            smistaInModello(todo, modelComplete, modelNoComplete, modelExpired);
         }
 
-        DefaultListModel<ToDo> toDoListModelComplete = new DefaultListModel<>();
-        DefaultListModel<ToDo> toDoListModelNoComplete = new DefaultListModel<>();
-        DefaultListModel<ToDo> toDoListModelExpired = new DefaultListModel<>();
+        complete.setModel(modelComplete);
+        noComplete.setModel(modelNoComplete);
+        expired.setModel(modelExpired);
+    }
 
-        listaPrincipale.sort((t1, t2) -> {
+    private ArrayList<ToDoCondiviso> recuperaCondivisi(int bachecaId) {
+        ArrayList<ToDoCondiviso> condivisi = new ArrayList<>();
+        condivisi.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaID(bachecaId));
+        condivisi.addAll(DatabaseConnection.todoCondivisoDB.findByBachecaCreatoreId(bachecaId));
+        return condivisi;
+    }
+
+    private void unisciListe(ArrayList<ToDo> principale, ArrayList<ToDoCondiviso> condivisi) {
+        for (ToDoCondiviso cond : condivisi) {
+            int indiceEsistente = trovaIndice(principale, cond.getId());
+
+            if (indiceEsistente != -1) {
+                principale.set(indiceEsistente, cond);
+            } else {
+                principale.add(cond);
+            }
+        }
+    }
+
+    private int trovaIndice(ArrayList<ToDo> lista, int id) {
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void ordinaLista(ArrayList<ToDo> lista) {
+        lista.sort((t1, t2) -> {
             if (t1.getDataScadenza() == null) return 1;
             if (t2.getDataScadenza() == null) return -1;
             return t1.getDataScadenza().compareTo(t2.getDataScadenza());
         });
-
-        for (ToDo todo : listaPrincipale) {
-            if (todo.isCompletato()) {
-                toDoListModelComplete.addElement(todo);
-            } else if (todo.getDataScadenza() != null && todo.getDataScadenza().isBefore(LocalDate.now())) {
-                toDoListModelExpired.addElement(todo);
-            } else {
-                toDoListModelNoComplete.addElement(todo);
-            }
-        }
-
-        complete.setModel(toDoListModelComplete);
-        noComplete.setModel(toDoListModelNoComplete);
-        expired.setModel(toDoListModelExpired);
     }
+
+    private void smistaInModello(ToDo t, DefaultListModel<ToDo> c, DefaultListModel<ToDo> nc, DefaultListModel<ToDo> e) {
+        if (t.isCompletato()) {
+            c.addElement(t);
+        } else if (isScaduto(t)) {
+            e.addElement(t);
+        } else {
+            nc.addElement(t);
+        }
+    }
+
+    private boolean isScaduto(ToDo t) {
+        return t.getDataScadenza() != null && t.getDataScadenza().isBefore(LocalDate.now());
+    }
+
 
     @Override
     public void modificaBacheca() {

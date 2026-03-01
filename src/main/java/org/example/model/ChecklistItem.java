@@ -41,7 +41,7 @@ public class ChecklistItem {
 
     @Override
     public String toString() {
-        return descrizione + (stato == true ? " ✓" : "");
+        return descrizione + (Boolean.TRUE.equals(stato) ? " ✓" : "");
     }
 
     /**

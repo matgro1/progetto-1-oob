@@ -1,9 +1,8 @@
 package org.example.controller.homecontroller;
 
 import org.example.Home;
-import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
-import org.example.dao.UtenteDAO.UtenteDAO;
+import org.example.dao.utentedao.UtenteDAO;
 import org.example.database.DatabaseConnection;
 import org.example.gui.MainPage;
 import org.example.model.Utente;

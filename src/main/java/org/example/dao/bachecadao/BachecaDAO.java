@@ -1,4 +1,4 @@
-package org.example.dao.BachecaDAO;
+package org.example.dao.bachecadao;
 import org.example.model.Bacheca;
 
 import java.util.ArrayList;
@@ -16,13 +16,7 @@ public interface BachecaDAO {
      */
     Bacheca save(Bacheca bacheca);
 
-    /**
-     * Find by id bacheca.
-     *
-     * @param id the id
-     * @return the bacheca
-     */
-    Bacheca findById(int id);
+
 
     /**
      * Find by utente id array list.

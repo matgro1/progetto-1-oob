@@ -1,9 +1,9 @@
 package org.example.database;
-import org.example.dao.BachecaDAO.BachecaDAOImpl;
-import org.example.dao.ChecklistitemDAO.ChecklistItemDAOImpl;
-import org.example.dao.ToDoCondivisoDAO.ToDoCondivisoDAOImpl;
-import org.example.dao.ToDoDAO.ToDoDAOImpl;
-import org.example.dao.UtenteDAO.UtenteDAOImpl;
+import org.example.dao.bachecadao.BachecaDAOImpl;
+import org.example.dao.checklistitemdao.ChecklistItemDAOImpl;
+import org.example.dao.todocondivisodao.ToDoCondivisoDAOImpl;
+import org.example.dao.tododao.ToDoDAOImpl;
+import org.example.dao.utentedao.UtenteDAOImpl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,9 +13,10 @@ import java.sql.SQLException;
  * The type Database connection.
  */
 public class DatabaseConnection {
+    private DatabaseConnection(){}
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "Ciaosono1";
     /**
      * The constant bachecaDB.
      */

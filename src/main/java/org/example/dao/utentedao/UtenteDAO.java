@@ -1,4 +1,4 @@
-package org.example.dao.UtenteDAO;
+package org.example.dao.utentedao;
 import org.example.database.DatabaseConnection;
 import org.example.model.Utente;
 
@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The interface Utente dao.
@@ -38,9 +40,9 @@ public interface UtenteDAO {
      *
      * @return the array list
      */
-    static ArrayList<Utente> findAll(){
-        String sql = "SELECT * FROM utenti";
-        try(Connection conn= DatabaseConnection.getConnection(); PreparedStatement stmt=conn.prepareStatement(sql)) {
+    static ArrayList<Utente> findAll() {
+        String sql = "SELECT id, login, password FROM utenti";
+        try (Connection conn = DatabaseConnection.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();
             ArrayList<Utente> utenti = new ArrayList<>();
             while (rs.next()) {
@@ -53,7 +55,8 @@ public interface UtenteDAO {
             }
             return utenti;
         } catch (SQLException e) {
-            throw new RuntimeException("errore ricerca tutti gli utenti", e);
+            Logger.getLogger(UtenteDAO.class.getName()).log(Level.SEVERE, "errore ricerca tutti gli utenti", e);
+            return new ArrayList<>();
         }
     }
 
@@ -74,7 +77,8 @@ public interface UtenteDAO {
                 return null;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("errore ricerca nome utente per id", e);
+            Logger.getLogger(UtenteDAO.class.getName()).log(Level.SEVERE, "errore ricerca nome utente per id", e);
+            return null;
         }
     }
 }

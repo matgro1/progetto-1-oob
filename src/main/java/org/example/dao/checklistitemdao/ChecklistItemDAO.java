@@ -1,4 +1,4 @@
-package org.example.dao.ChecklistitemDAO;
+package org.example.dao.checklistitemdao;
 import org.example.model.ChecklistItem;
 import java.util.List;
 

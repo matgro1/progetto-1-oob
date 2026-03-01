@@ -1,4 +1,4 @@
-package org.example.dao.ToDoDAO;
+package org.example.dao.tododao;
 
 import org.example.model.ToDo;
 import java.util.ArrayList;
@@ -15,13 +15,7 @@ public interface ToDoDAO {
      */
     ToDo save(ToDo todo);
 
-    /**
-     * Find by id to do.
-     *
-     * @param id the id
-     * @return the to do
-     */
-    ToDo findById(int id);
+
 
     /**
      * Find by bacheca id array list.

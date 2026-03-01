@@ -70,7 +70,7 @@ public class ToDoDetailPage extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        controller.initializeGui(
+        ToDoDetailPageController.DetailComponents uiComponents = new ToDoDetailPageController.DetailComponents(
                 list1,
                 completaCheckBox,
                 nomeToDoLabel,
@@ -81,7 +81,9 @@ public class ToDoDetailPage extends JDialog {
                 cancellaButton
         );
 
+        controller.initializeGui(uiComponents);
         buttonOK.addActionListener(e -> {
+
             controller.onOkAction();
             dispose();
         });

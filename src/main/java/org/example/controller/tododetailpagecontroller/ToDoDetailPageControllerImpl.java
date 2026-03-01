@@ -1,16 +1,14 @@
 package org.example.controller.tododetailpagecontroller;
 
-import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
-import org.example.dao.UtenteDAO.UtenteDAO;
+import org.example.dao.utentedao.UtenteDAO;
 import org.example.database.DatabaseConnection;
 import org.example.model.ChecklistItem;
 import org.example.model.ToDo;
 import org.example.model.ToDoCondiviso;
-
+import java.util.logging.Logger;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -20,7 +18,8 @@ import java.util.List;
  */
 public class ToDoDetailPageControllerImpl implements ToDoDetailPageController {
 
-    final private DefaultListModel<ChecklistItem> listModel;
+    private static final Logger LOGGER = Logger.getLogger(ToDoDetailPageControllerImpl.class.getName());
+    private final DefaultListModel<ChecklistItem> listModel;
     private JCheckBox currentCompletaCheckBox;
 
     /**
@@ -34,117 +33,98 @@ public class ToDoDetailPageControllerImpl implements ToDoDetailPageController {
     }
 
     @Override
-    public void initializeGui(JList<ChecklistItem> checklistJList,
-                              JCheckBox completaCheckBox,
-                              JLabel nomeToDoLabel,
-                              JPanel contentPanel,
-                              JLabel dataScadenza,
-                              JLabel ultimaModifica,
-                              JLabel utenteCodiviso,
-                              JButton cancellaButton) {
-
-        this.currentCompletaCheckBox = completaCheckBox;
-
+    public void initializeGui(DetailComponents ui) {
+        this.currentCompletaCheckBox = ui.completaCheckBox();
         ToDo todo = SessionManager.getInstance().getCurrentToDo();
 
-        for (ActionListener al : cancellaButton.getActionListeners()) {
+        pulisciListenerCancella(ui.cancellaButton());
+        ui.nomeToDoLabel().setText(todo.getTitolo());
+
+        impostaDataScadenza(ui.dataScadenza(), todo);
+        impostaInfoCondivisione(ui, todo);
+        configuraPannelloCentrale(ui, todo);
+    }
+
+    private void pulisciListenerCancella(JButton cancellaButton) {
+        for (java.awt.event.ActionListener al : cancellaButton.getActionListeners()) {
             cancellaButton.removeActionListener(al);
         }
+    }
 
-
-        ultimaModifica.setVisible(false);
-        utenteCodiviso.setVisible(false);
-
+    private void impostaDataScadenza(JLabel dataScadenzaLabel, ToDo todo) {
         if (todo.getDataScadenza() != null) {
-            dataScadenza.setText("Scadenza: " + todo.getDataScadenza().toString());
+            dataScadenzaLabel.setText("Scadenza: " + todo.getDataScadenza());
         } else {
-            dataScadenza.setText("Scadenza: N/A");
+            dataScadenzaLabel.setText("Scadenza: N/A");
         }
+    }
+
+    private void impostaInfoCondivisione(DetailComponents ui, ToDo todo) {
+        ui.ultimaModifica().setVisible(false);
+        ui.utenteCodiviso().setVisible(false);
 
         if (todo instanceof ToDoCondiviso tdc) {
-            ultimaModifica.setVisible(true);
-            utenteCodiviso.setVisible(true);
-            ultimaModifica.setText("Ultima modifica da : " + UtenteDAO.getNameById(tdc.getUltimoModificatoreId()));
-            if (tdc.getUtenteCreatoreId() != SessionManager.getInstance().getCurrentUser().getId())
-                utenteCodiviso.setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCreatoreId()));
-            else
-                utenteCodiviso.setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCondivisoId()));
+            ui.ultimaModifica().setVisible(true);
+            ui.utenteCodiviso().setVisible(true);
+            ui.ultimaModifica().setText("Ultima modifica da : " + UtenteDAO.getNameById(tdc.getUltimoModificatoreId()));
+
+            int currentUserId = SessionManager.getInstance().getCurrentUser().getId();
+            if (tdc.getUtenteCreatoreId() != currentUserId) {
+                ui.utenteCodiviso().setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCreatoreId()));
+            } else {
+                ui.utenteCodiviso().setText("Condiviso con : " + UtenteDAO.getNameById(tdc.getUtenteCondivisoId()));
+            }
         }
-        nomeToDoLabel.setText(todo.getTitolo());
+    }
+
+    private void configuraPannelloCentrale(DetailComponents ui, ToDo todo) {
+        Component centerComponent = ((BorderLayout) ui.contentPanel().getLayout()).getLayoutComponent(BorderLayout.CENTER);
+        if (centerComponent != null) {
+            ui.contentPanel().remove(centerComponent);
+        }
 
         List<ChecklistItem> checklist = DatabaseConnection.checklistItemDB.findByToDoId(todo.getId());
 
-        Component centerComponent = ((BorderLayout) contentPanel.getLayout()).getLayoutComponent(BorderLayout.CENTER);
-        if (centerComponent != null) {
-            contentPanel.remove(centerComponent);
-        }
-
         if (checklist != null && !checklist.isEmpty()) {
-            listModel.clear();
-            for (ChecklistItem item : checklist) {
-                listModel.addElement(item);
-            }
-            checklistJList.setModel(listModel);
-
-            checklistJList.setCellRenderer(new ListCellRenderer<ChecklistItem>() {
-                private final JPanel panel = new JPanel(new BorderLayout());
-                private final JCheckBox checkBox = new JCheckBox();
-
-                {
-                    checkBox.setOpaque(false);
-                    checkBox.setFocusPainted(false);
-                    checkBox.setBorderPainted(false);
-                    panel.add(checkBox, BorderLayout.WEST);
-                    panel.setOpaque(true);
-                    panel.setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
-                }
-
-                @Override
-                public Component getListCellRendererComponent(JList<? extends ChecklistItem> list,
-                                                              ChecklistItem value,
-                                                              int index,
-                                                              boolean isSelected,
-                                                              boolean cellHasFocus) {
-                    checkBox.setText(value.getDescrizione());
-                    checkBox.setSelected(value.isCompletato());
-                    checkBox.setEnabled(list.isEnabled());
-                    checkBox.setFont(list.getFont());
-
-                    if (isSelected) {
-                        panel.setBackground(list.getSelectionBackground());
-                        checkBox.setForeground(list.getSelectionForeground());
-                    } else {
-                        panel.setBackground(list.getBackground());
-                        checkBox.setForeground(list.getForeground());
-                    }
-                    return panel;
-                }
-            });
-
-            checklistJList.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    JList<ChecklistItem> sourceList = (JList<ChecklistItem>) e.getSource();
-                    int index = sourceList.locationToIndex(e.getPoint());
-                    if (index != -1) {
-                        toggleChecklistItemAction(index, sourceList);
-                    }
-                }
-            });
-
-            contentPanel.add(new JScrollPane(checklistJList), BorderLayout.CENTER);
-
+            mostraChecklist(ui, checklist);
         } else {
-            currentCompletaCheckBox.setSelected(todo.isCompletato());
-
-            currentCompletaCheckBox.addActionListener(e -> {
-                todo.setCompletato(currentCompletaCheckBox.isSelected());
-            });
-            contentPanel.add(currentCompletaCheckBox, BorderLayout.CENTER);
+            mostraSingolaCheckBox(ui, todo);
         }
 
-        contentPanel.revalidate();
-        contentPanel.repaint();
+        ui.contentPanel().revalidate();
+        ui.contentPanel().repaint();
+    }
+
+    private void mostraChecklist(DetailComponents ui, List<ChecklistItem> checklist) {
+        listModel.clear();
+        for (ChecklistItem item : checklist) {
+            listModel.addElement(item);
+        }
+        ui.checklistJList().setModel(listModel);
+        ui.checklistJList().setCellRenderer(new ChecklistRenderer());
+        ui.checklistJList().addMouseListener(creaMouseListenerChecklist());
+
+        ui.contentPanel().add(new JScrollPane(ui.checklistJList()), BorderLayout.CENTER);
+    }
+
+    private void mostraSingolaCheckBox(DetailComponents ui, ToDo todo) {
+        currentCompletaCheckBox.setSelected(todo.isCompletato());
+        currentCompletaCheckBox.addActionListener(e -> todo.setCompletato(currentCompletaCheckBox.isSelected()));
+        ui.contentPanel().add(currentCompletaCheckBox, BorderLayout.CENTER);
+    }
+
+    private MouseAdapter creaMouseListenerChecklist() {
+        return new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                @SuppressWarnings("unchecked")
+                JList<ChecklistItem> sourceList = (JList<ChecklistItem>) e.getSource();
+                int index = sourceList.locationToIndex(e.getPoint());
+                if (index != -1) {
+                    toggleChecklistItemAction(index, sourceList);
+                }
+            }
+        };
     }
 
     @Override
@@ -176,19 +156,20 @@ public class ToDoDetailPageControllerImpl implements ToDoDetailPageController {
     public void onOkAction() {
         ToDo todo = SessionManager.getInstance().getCurrentToDo();
 
-        if(todo instanceof ToDoCondiviso) {
+        if (todo instanceof ToDoCondiviso) {
             DatabaseConnection.todoCondivisoDB.update((ToDoCondiviso) todo);
         } else {
             DatabaseConnection.todoDB.update(todo);
         }
 
-        System.out.println("Salvataggio ToDo: " + todo.getTitolo() + " - Completato: " + todo.isCompletato());
+        LOGGER.info("Salvataggio ToDo: " + todo.getTitolo() + " - Completato: " + todo.isCompletato());
     }
 
     @Override
     public void onCancelAction() {
-        System.out.println("Modifiche annullate.");
+        LOGGER.info("Modifiche annullate.");
     }
+
     @Override
     public void onCancellaAction() {
         ToDo todo = SessionManager.getInstance().getCurrentToDo();
@@ -205,6 +186,39 @@ public class ToDoDetailPageControllerImpl implements ToDoDetailPageController {
                 DatabaseConnection.todoDB.delete(todo.getId());
             }
             SessionManager.getInstance().setCurrentToDo(null);
+        }
+    }
+
+    private static class ChecklistRenderer implements ListCellRenderer<ChecklistItem> {
+        private final JPanel panel;
+        private final JCheckBox checkBox;
+
+        public ChecklistRenderer() {
+            panel = new JPanel(new BorderLayout());
+            checkBox = new JCheckBox();
+            checkBox.setOpaque(false);
+            checkBox.setFocusPainted(false);
+            checkBox.setBorderPainted(false);
+            panel.add(checkBox, BorderLayout.WEST);
+            panel.setOpaque(true);
+            panel.setBorder(BorderFactory.createEmptyBorder(1, 2, 1, 2));
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends ChecklistItem> list, ChecklistItem value, int index, boolean isSelected, boolean cellHasFocus) {
+            checkBox.setText(value.getDescrizione());
+            checkBox.setSelected(value.isCompletato());
+            checkBox.setEnabled(list.isEnabled());
+            checkBox.setFont(list.getFont());
+
+            if (isSelected) {
+                panel.setBackground(list.getSelectionBackground());
+                checkBox.setForeground(list.getSelectionForeground());
+            } else {
+                panel.setBackground(list.getBackground());
+                checkBox.setForeground(list.getForeground());
+            }
+            return panel;
         }
     }
 }

@@ -1,9 +1,8 @@
 package org.example.controller.creatodopagecontroller;
 
-import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
 import org.example.database.DatabaseConnection;
-import org.example.dao.UtenteDAO.UtenteDAO;
+import org.example.dao.utentedao.UtenteDAO;
 import org.example.gui.BachecaMainPage;
 import org.example.model.*;
 
@@ -18,20 +17,22 @@ import java.util.List;
 public class CreaToDoPageControllerImpl  implements CreaToDoPageController {
 
     @Override
-    public void inizializzazione(JSpinner giorno, JSpinner mese, JSpinner anno, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca, JLabel cLabel){
+    public void inizializzazione(CreaToDoPageController.DateSpinners dateSpinners,
+                                 CreaToDoPageController.CondivisioneUI condivisioneUI,
+                                 JList<ChecklistItem> checkList) {
         SpinnerNumberModel giornoModel = new SpinnerNumberModel(1, 1, 31, 1);
-        giorno.setModel(giornoModel);
+        dateSpinners.giorno().setModel(giornoModel);
         SpinnerNumberModel meseModel = new SpinnerNumberModel(1, 1, 12, 1);
-        mese.setModel(meseModel);
+        dateSpinners.mese().setModel(meseModel);
         SpinnerNumberModel annoModel = new SpinnerNumberModel(2025, 2025, 2050, 1);
-        anno.setModel(annoModel);
-        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(anno, "#");
-        anno.setEditor(editor);
+        dateSpinners.anno().setModel(annoModel);
+        JSpinner.NumberEditor editor = new JSpinner.NumberEditor(dateSpinners.anno(), "#");
+        dateSpinners.anno().setEditor(editor);
 
-        condivisoLabel.setVisible(false);
-        nomeUtenteCondiviso.setVisible(false);
-        comboBacheca.setVisible(false);
-        cLabel.setVisible(false);
+        condivisioneUI.utenteLabel().setVisible(false);
+        condivisioneUI.nomeUtente().setVisible(false);
+        condivisioneUI.combo().setVisible(false);
+        condivisioneUI.comboLabel().setVisible(false);
 
         DefaultListModel<ChecklistItem> model = new DefaultListModel<>();
         checkList.setModel(model);
@@ -97,71 +98,81 @@ public class CreaToDoPageControllerImpl  implements CreaToDoPageController {
         }
     }
 
-    public void creaToDo(JPanel creaToDoPagePanel, JCheckBox condivisoCheckBox, JTextField titoloField, JTextField nomeUtenteCondiviso, JSpinner giorno, JSpinner mese, JSpinner anno, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca) {
-        int g = (int) giorno.getValue();
-        int m = (int) mese.getValue();
-        int a = (int) anno.getValue();
-        LocalDate data = LocalDate.of(a, m, g);
-
-        ToDo nuovoToDo;
+    @Override
+    public void creaToDo(JPanel creaToDoPagePanel, CreaToDoPageController.ToDoFormData formData, JList<ChecklistItem> checkList) {
         Bacheca currentBacheca = SessionManager.getInstance().getCurrentBacheca();
+        ToDo nuovoToDo;
 
-        if (!condivisoCheckBox.isSelected()) {
-            nuovoToDo = DatabaseConnection.todoDB.save(
-                    new ToDo(
-                            titoloField.getText(),
-                            data,
-                            currentBacheca.getId()
-                    )
-            );
+        if (!formData.isCondiviso()) {
+            nuovoToDo = salvaToDoNormale(formData, currentBacheca);
         } else {
-            Utente currentUser = SessionManager.getInstance().getCurrentUser();
-            ArrayList<Utente> allUsers = UtenteDAO.findAll();
-            Utente utenteTarget = null;
-
-            for (Utente u : allUsers) {
-                if (u.getLogin().equals(nomeUtenteCondiviso.getText())) {
-                    utenteTarget = u;
-                    break;
-                }
-            }
-
-            if (utenteTarget == null) {
-                JOptionPane.showMessageDialog(creaToDoPagePanel, "Nome utente non valido!", "Errore", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            Bacheca bachecaTarget = (Bacheca) comboBacheca.getSelectedItem();
-            if (bachecaTarget == null) {
-                JOptionPane.showMessageDialog(creaToDoPagePanel, "Seleziona una bacheca valida", "Errore", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            nuovoToDo = DatabaseConnection.todoCondivisoDB.save(
-                    new ToDoCondiviso(
-                            titoloField.getText(),
-                            data,
-                            bachecaTarget.getId(),
-                            currentUser.getId(),
-                            utenteTarget.getId(),
-                            LocalDate.now(),
-                            currentBacheca.getId()
-                    )
-            );
+            nuovoToDo = salvaToDoCondiviso(creaToDoPagePanel, formData, currentBacheca);
         }
 
         if (nuovoToDo != null) {
-            DefaultListModel<ChecklistItem> model = (DefaultListModel<ChecklistItem>) checkList.getModel();
-            if (model != null) {
-                for (int i = 0; i < model.getSize(); i++) {
-                    ChecklistItem originalItem = model.getElementAt(i);
-                    ChecklistItem newItem = new ChecklistItem(originalItem.getDescrizione(), nuovoToDo.getId());
-                    newItem.setStato(originalItem.getStato());
-                    DatabaseConnection.checklistItemDB.save(newItem);
-                }
-            }
-
+            salvaChecklist(checkList, nuovoToDo.getId());
             returnBachecaMainPage();
+        }
+    }
+
+
+    private ToDo salvaToDoNormale(CreaToDoPageController.ToDoFormData formData, Bacheca currentBacheca) {
+        return DatabaseConnection.todoDB.save(
+                new ToDo(
+                        formData.titolo(),
+                        formData.data(),
+                        currentBacheca.getId()
+                )
+        );
+    }
+
+    private ToDo salvaToDoCondiviso(JPanel panel, CreaToDoPageController.ToDoFormData formData, Bacheca currentBacheca) {
+        Utente utenteTarget = trovaUtente(formData.utenteTarget());
+
+        if (utenteTarget == null) {
+            JOptionPane.showMessageDialog(panel, "Nome utente non valido!", "Errore", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+        Bacheca bachecaTarget = formData.bachecaTarget();
+        if (bachecaTarget == null) {
+            JOptionPane.showMessageDialog(panel, "Seleziona una bacheca valida", "Errore", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+        Utente currentUser = SessionManager.getInstance().getCurrentUser();
+
+        return DatabaseConnection.todoCondivisoDB.save(
+                new ToDoCondiviso(
+                        formData.titolo(),
+                        formData.data(),
+                        bachecaTarget.getId(),
+                        currentUser.getId(),
+                        utenteTarget.getId(),
+                        LocalDate.now(),
+                        currentBacheca.getId()
+                )
+        );
+    }
+
+    private Utente trovaUtente(String usernameTarget) {
+        for (Utente u : UtenteDAO.findAll()) {
+            if (u.getLogin().equals(usernameTarget)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    private void salvaChecklist(JList<ChecklistItem> checkList, int idNuovoToDo) {
+        if (checkList.getModel() instanceof DefaultListModel<ChecklistItem> model) {
+            for (int i = 0; i < model.getSize(); i++) {
+                ChecklistItem originalItem = model.getElementAt(i);
+                ChecklistItem newItem = new ChecklistItem(originalItem.getDescrizione(), idNuovoToDo);
+                newItem.setStato(originalItem.getStato());
+
+                DatabaseConnection.checklistItemDB.save(newItem);
+            }
         }
     }
 }

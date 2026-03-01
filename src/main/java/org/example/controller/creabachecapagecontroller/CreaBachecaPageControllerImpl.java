@@ -1,6 +1,5 @@
 package org.example.controller.creabachecapagecontroller;
 
-import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
 import org.example.database.DatabaseConnection;
 import org.example.gui.MainPage;

@@ -5,39 +5,50 @@ import org.example.model.Bacheca;
 import org.example.model.ChecklistItem;
 
 import javax.swing.*;
+import java.time.LocalDate;
 
 /**
  * The interface Crea to do page controller.
  */
 public interface CreaToDoPageController {
     /**
+     * The type Date spinners.
+     */
+    public record DateSpinners(JSpinner giorno, JSpinner mese, JSpinner anno) {}
+
+    /**
+     * The type Condivisione ui.
+     */
+    public record CondivisioneUI(JTextField nomeUtente, JLabel utenteLabel, JComboBox<Bacheca> combo, JLabel comboLabel) {}
+
+    /**
      * Inizializzazione.
      *
-     * @param giorno              the giorno
-     * @param mese                the mese
-     * @param anno                the anno
-     * @param nomeUtenteCondiviso the nome utente condiviso
-     * @param condivisoLabel      the condiviso label
-     * @param checkList           the check list
-     * @param comboBacheca        the combo bacheca
-     * @param clabel              the clabel
+     * @param dateSpinners   the date spinners
+     * @param condivisioneUI the condivisione ui
+     * @param checkList      the check list
      */
-    void inizializzazione(JSpinner giorno, JSpinner mese, JSpinner anno, JTextField nomeUtenteCondiviso, JLabel condivisoLabel, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca, JLabel clabel);
+    void inizializzazione(DateSpinners dateSpinners, CondivisioneUI condivisioneUI, JList<ChecklistItem> checkList);
+
+    /**
+     * The type To do form data.
+     */
+    public record ToDoFormData(
+            String titolo,
+            LocalDate data,
+            boolean isCondiviso,
+            String utenteTarget,
+            Bacheca bachecaTarget
+    ) {}
 
     /**
      * Crea to do.
      *
-     * @param creaToDoPagePanel   the crea to do page panel
-     * @param condivisoCheckBox   the condiviso check box
-     * @param titoloField         the titolo field
-     * @param nomeUtenteCondiviso the nome utente condiviso
-     * @param giorno              the giorno
-     * @param mese                the mese
-     * @param anno                the anno
-     * @param checkList           the check list
-     * @param comboBacheca        the combo bacheca
+     * @param creaToDoPagePanel the crea to do page panel
+     * @param formData          the form data
+     * @param checkList         the check list
      */
-    void creaToDo(JPanel creaToDoPagePanel, JCheckBox condivisoCheckBox, JTextField titoloField, JTextField nomeUtenteCondiviso, JSpinner giorno, JSpinner mese, JSpinner anno, JList<ChecklistItem> checkList, JComboBox<Bacheca> comboBacheca);
+    void creaToDo(JPanel creaToDoPagePanel, ToDoFormData formData, JList<ChecklistItem> checkList);
 
     /**
      * Aggiungi checklist item.

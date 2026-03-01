@@ -1,7 +1,6 @@
 package org.example.controller.mainpagecontroller;
 
 import org.example.Home;
-import org.example.controller.ControllerFather;
 import org.example.controller.SessionManager;
 import org.example.database.DatabaseConnection;
 import org.example.gui.BachecaMainPage;

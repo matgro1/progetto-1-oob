@@ -1,4 +1,4 @@
-package org.example.dao.ToDoCondivisoDAO;
+package org.example.dao.todocondivisodao;
 import org.example.model.ToDoCondiviso;
 
 import java.util.List;
@@ -38,6 +38,8 @@ public interface ToDoCondivisoDAO {
      * @return the list
      */
     List<ToDoCondiviso> findByUtenteCondivisoID(int utenteId);
+
+    List<ToDoCondiviso> findByBachecaCreatoreId(int bachecaCreatoreId);
 
     /**
      * Update.

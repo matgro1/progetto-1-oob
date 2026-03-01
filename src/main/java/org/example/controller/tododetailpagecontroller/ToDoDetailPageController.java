@@ -11,24 +11,25 @@ import javax.swing.*;
 public interface ToDoDetailPageController {
 
     /**
+     * The type Detail components.
+     */
+    record DetailComponents(
+            JList<ChecklistItem> checklistJList,
+            JCheckBox completaCheckBox,
+            JLabel nomeToDoLabel,
+            JPanel contentPanel,
+            JLabel dataScadenza,
+            JLabel ultimaModifica,
+            JLabel utenteCodiviso,
+            JButton cancellaButton
+    ) {}
+
+    /**
      * Initialize gui.
      *
-     * @param checklistJList   the checklist j list
-     * @param completaCheckBox the completa check box
-     * @param nomeToDoLabel    the nome to do label
-     * @param contentPanel     the content panel
-     * @param dataScadenza     the data scadenza
-     * @param ultimaModifica   the ultima modifica
-     * @param utenteCodiviso   the utente codiviso
+     * @param ui the ui
      */
-    void initializeGui(JList<ChecklistItem> checklistJList,
-                       JCheckBox completaCheckBox,
-                       JLabel nomeToDoLabel,
-                       JPanel contentPanel,
-                       JLabel dataScadenza,
-                       JLabel ultimaModifica,
-                       JLabel utenteCodiviso,
-                       JButton cancellaButton);
+    void initializeGui(DetailComponents ui);
 
     /**
      * Toggle checklist item action.
@@ -47,5 +48,9 @@ public interface ToDoDetailPageController {
      * On cancel action.
      */
     void onCancelAction();
+
+    /**
+     * On cancella action.
+     */
     void onCancellaAction();
 }
